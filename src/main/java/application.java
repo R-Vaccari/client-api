@@ -1,10 +1,6 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -12,22 +8,25 @@ public class application {
 
     public static void main(String[] args) {
 
+        ObjectMapper om = new ObjectMapper();
+
         Client client = ClientBuilder.newClient();
         WebTarget authTarget = client.target("http://localhost:8181").path("authenticate");
         WebTarget getTarget = client.target("http://localhost:8181").path("students");
 
         Invocation.Builder invocationBuilder;
 
-        Response authentication = authTarget.request(MediaType.APPLICATION_JSON_TYPE).post();
-        String jwt;
+        String login = "{ \"username\" : \"user\" , \"password\" : \"password\" }";
+
+        Response authentication = authTarget.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.json(login));
+        String jwt = authentication.readEntity(String.class);
 
         Response response = getTarget.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer ")
+                .header("Authorization", "Bearer " + jwt)
                 .get();
 
-
         System.out.println(response.getStatus());
-        System.out.println("Test");
+        System.out.println(jwt);
 
     }
 }
