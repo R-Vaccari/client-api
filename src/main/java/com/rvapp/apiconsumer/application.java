@@ -1,3 +1,5 @@
+package com.rvapp.apiconsumer;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.ws.rs.client.*;
@@ -19,13 +21,18 @@ public class application {
         String login = "{ \"username\" : \"user\" , \"password\" : \"password\" }";
 
         Response authentication = authTarget.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.json(login));
-        String jwt = authentication.readEntity(String.class);
+        String authResponseBody = authentication.readEntity(String.class);
+        String jwt = authResponseBody.substring(8, authResponseBody.length() - 2);
 
-        Response response = getTarget.request(MediaType.APPLICATION_JSON_TYPE)
+        Response getResponse = getTarget.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + jwt)
                 .get();
 
-        System.out.println(response.getStatus());
+        String getResponseBody = getResponse.readEntity(String.class);
+
+        System.out.println(getResponse.getStatus());
+        System.out.println(getResponseBody);
+        System.out.println(authResponseBody);
         System.out.println(jwt);
 
     }
