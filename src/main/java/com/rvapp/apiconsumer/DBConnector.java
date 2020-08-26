@@ -8,8 +8,6 @@ public class DBConnector {
 
     public static Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","secret");
-
-        if (conn != null) System.out.println("Database online.");
         return conn;
     }
 }

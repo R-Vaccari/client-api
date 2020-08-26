@@ -1,19 +1,13 @@
 package com.rvapp.apiconsumer.resources;
 
 import com.rvapp.apiconsumer.ClientProvider;
-import com.rvapp.apiconsumer.ObjectMapperProvider;
-import org.glassfish.jersey.jackson.JacksonFeature;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class JWTAuthenticator {
-
-
 
     public static String authenticate() {
         WebTarget authTarget = ClientProvider.getClient().target("http://localhost:8181").path("authenticate");
@@ -24,6 +18,4 @@ public class JWTAuthenticator {
         String jwt = authResponseBody.substring(8, authResponseBody.length() - 2);
         return jwt;
     }
-
-
 }

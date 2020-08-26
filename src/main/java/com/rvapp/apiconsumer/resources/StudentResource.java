@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rvapp.apiconsumer.ClientProvider;
 import com.rvapp.apiconsumer.domain.Student;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -16,6 +17,7 @@ public class StudentResource {
     Client client = ClientProvider.getClient();
     ObjectMapper om = new ObjectMapper();
 
+    @Consumes("application/json")
     public String getData() throws JsonProcessingException {
 
         WebTarget getTarget = client.target("http://localhost:8181").path("students");
@@ -32,5 +34,4 @@ public class StudentResource {
         List<Student> studentList = om.readValue(body, List.class);
         return studentList;
     }
-
 }
