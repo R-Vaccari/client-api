@@ -1,4 +1,4 @@
-package com.rvapp.apiconsumer;
+package com.rvapp.apiconsumer.util;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

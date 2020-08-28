@@ -1,6 +1,6 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.ClientProvider;
+import com.rvapp.apiconsumer.util.ClientProvider;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 public class JWTAuthenticator {
 
     public static String authenticate() {
-        WebTarget authTarget = ClientProvider.getClient().target("http://localhost:8181").path("authenticate");
+        WebTarget authTarget = ClientProvider.getClient().target("https://rvapp-course-api.herokuapp.com").path("authenticate");
         String login = "{ \"username\" : \"user\" , \"password\" : \"password\" }";
 
         Response authentication = authTarget.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.json(login));

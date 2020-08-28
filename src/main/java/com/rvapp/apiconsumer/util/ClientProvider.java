@@ -1,4 +1,4 @@
-package com.rvapp.apiconsumer;
+package com.rvapp.apiconsumer.util;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 
