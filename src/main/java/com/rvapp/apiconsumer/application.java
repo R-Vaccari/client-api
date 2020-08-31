@@ -2,7 +2,9 @@ package com.rvapp.apiconsumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rvapp.apiconsumer.resources.StudentResource;
+import com.rvapp.apiconsumer.util.Parser;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class application {
@@ -12,11 +14,12 @@ public class application {
         StudentResource resourceStudent = new StudentResource();
 
         try {
-            resourceStudent.insertStudentList();
-            System.out.println("Data retrieval successful.");
+
+            Parser.produceJson(resourceStudent.getData());
+            System.out.println("Parse to file successful.");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
