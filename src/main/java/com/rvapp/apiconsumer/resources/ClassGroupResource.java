@@ -17,11 +17,8 @@ import java.util.List;
 
 public class ClassGroupResource {
 
-    String path = "classes/levelsearch?level=INTERMEDIATE";
     private Client client = ClientProvider.getClient();
-    private WebTarget getTarget = client.target("https://rvapp-course-api.herokuapp.com").path(path);
-
-
+    private WebTarget getTarget = client.target("https://rvapp-course-api.herokuapp.com").path("classes").path("levelsearch").queryParam("level", "INTERMEDIATE");
 
     @Consumes("application/json")
     public String getClassesList() {
