@@ -13,16 +13,8 @@ public class application {
 
     public static void main(String[] args) throws SQLException, IOException {
 
-        StudentResource resourceStudent = new StudentResource();
         ClassGroupResource resourceClasses = new ClassGroupResource();
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println(resourceClasses.getWebTarget());
-        System.out.println();
-
-        Parser.produceClassesJson(resourceClasses.getIntermediateClasses());
-        System.out.println(Parser.parseNestedClassList());
+        
 
 
 
@@ -34,6 +26,10 @@ public class application {
 
 
         /*
+        Scanner sc = new Scanner(System.in);
+        System.out.println(resourceClasses.getWebTarget());
+        System.out.println();
+
         System.out.println("Connection = " + DBConnector.getConnection().toString() + "\nCurrent Webtarget = " + resourceStudent.getWebTarget());
         System.out.println();
 
@@ -56,7 +52,7 @@ public class application {
                     e.printStackTrace();
                 } break;
         }
-         */
         sc.close();
+         */
     }
 }

@@ -1,6 +1,7 @@
 package com.rvapp.apiconsumer.util;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -19,8 +20,10 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
         return defaultObjectMapper;
     }
 
-    private static ObjectMapper createDefaultMapper() {
+    public static ObjectMapper createDefaultMapper() {
         final ObjectMapper result = new ObjectMapper();
+        result.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        result.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         result.enable(SerializationFeature.INDENT_OUTPUT);
 
         return result;

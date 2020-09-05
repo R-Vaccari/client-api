@@ -13,8 +13,9 @@ public class ClassGroup implements Serializable {
     private String id;
     private String className;
     private String classLevel;
+    @JsonProperty("teacher")
     private Teacher teacher;
-
+    @JsonProperty("students")
     private Set<Student> students = new HashSet<>();
 
     public ClassGroup() {
@@ -29,7 +30,6 @@ public class ClassGroup implements Serializable {
         this.students = students;
     }
 
-    @JsonSetter("id")
     public void setId(String id) {
         this.id = id;
     }

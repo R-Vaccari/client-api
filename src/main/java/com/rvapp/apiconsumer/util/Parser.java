@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class Parser {
 
-    static ObjectMapper om = new ObjectMapper();
+    static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
     public static List<Student> parseStudentsList(String responseBody) throws JsonProcessingException {
         List<Student> listStudents = om.readValue(responseBody, new TypeReference<List<Student>>(){});
@@ -33,23 +33,13 @@ public class Parser {
     }
 
     public static void produceClassesJson(String responseBody) throws IOException {
-        //responseBody = responseBody.substring(1, responseBody.length());
         om.writeValue(Paths.get("classes-list.json").toFile(), responseBody);
     }
 
-    public static ClassGroup parseNestedClassList() throws IOException {
-        JsonNode classNode = om.readTree(new File("C:\\Users\\Rodrigo\\IdeaProjects\\api-consumer\\classes-list.json"));
+    public static ClassGroup parseNestedClassList(String responseBody) throws IOException {
+        ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
-        ClassGroup classGroup = new ClassGroup();
-        classGroup.setId(classNode.path("id").asText());
-        classGroup.setClassLevel(classNode.get("classLevel").textValue());
-        classGroup.setClassName(classNode.get("className").textValue());
-
-        Teacher teacher = om.readValue(classNode.get("teacher").textValue(), new TypeReference<Teacher>(){});
-        Set<Student> students = om.readValue(classNode.get("teacher").textValue(), new TypeReference<Set<Student>>(){});
-
-        classGroup.setTeacher(teacher);
-        classGroup.setStudents(students);
+        ClassGroup classGroup = classGroupArray[0];
 
         return classGroup;
     }
