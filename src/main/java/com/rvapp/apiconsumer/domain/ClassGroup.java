@@ -1,5 +1,8 @@
 package com.rvapp.apiconsumer.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,48 +20,54 @@ public class ClassGroup implements Serializable {
     public ClassGroup() {
     }
 
-    public ClassGroup(String id, String className, String classLevel, Teacher teacher) {
+    public ClassGroup(String id, String className, String classLevel, Teacher teacher, Set<Student> students) {
         super();
         this.id = id;
         this.className = className;
         this.classLevel = classLevel;
         this.teacher = teacher;
+        this.students = students;
     }
 
-    public String getId() {
-        return id;
-    }
-
+    @JsonSetter("id")
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
     }
 
     public void setClassName(String className) {
         this.className = className;
     }
 
-    public String getClassLevel() {
-        return classLevel;
-    }
-
     public void setClassLevel(String classLevel) {
         this.classLevel = classLevel;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getClassName() {
         return className;
+    }
+
+    public String getClassLevel() {
+        return classLevel;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
     }
 
     @Override

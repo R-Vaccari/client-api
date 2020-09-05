@@ -1,6 +1,5 @@
 package com.rvapp.apiconsumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
 import com.rvapp.apiconsumer.util.DBConnector;
@@ -12,7 +11,7 @@ import java.util.Scanner;
 
 public class application {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
 
         StudentResource resourceStudent = new StudentResource();
         ClassGroupResource resourceClasses = new ClassGroupResource();
@@ -20,8 +19,21 @@ public class application {
         Scanner sc = new Scanner(System.in);
 
         System.out.println(resourceClasses.getWebTarget());
-        System.out.println(resourceClasses.getClassesList());
+        System.out.println();
 
+        Parser.produceClassesJson(resourceClasses.getIntermediateClasses());
+        System.out.println(Parser.parseNestedClassList());
+
+
+
+
+
+
+
+
+
+
+        /*
         System.out.println("Connection = " + DBConnector.getConnection().toString() + "\nCurrent Webtarget = " + resourceStudent.getWebTarget());
         System.out.println();
 
@@ -38,12 +50,13 @@ public class application {
                 } break;
             case 2:
                 try {
-                    Parser.produceJson(resourceStudent.getStudentsList());
+                    Parser.produceStudentsJson(resourceStudent.getStudentsList());
                     System.out.println("Parse to file successful.");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } break;
         }
+         */
         sc.close();
     }
 }
