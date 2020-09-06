@@ -2,23 +2,17 @@ package com.rvapp.apiconsumer;
 
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
-import com.rvapp.apiconsumer.util.DBConnector;
-import com.rvapp.apiconsumer.util.Parser;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Scanner;
 
 public class application {
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) throws IOException {
 
         ClassGroupResource resourceClasses = new ClassGroupResource();
-        
+        StudentResource resourceStudents = new StudentResource();
 
-
-
-
+        resourceStudents.insertParsedStudentsList(resourceStudents.getStudentsList());
 
 
 
