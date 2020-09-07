@@ -60,8 +60,8 @@ public class SQL {
             queryInsert.setString(1, classGroup.getId());
             queryInsert.setString(2, classGroup.getClassName());
             queryInsert.setString(3, classGroup.getClassLevel());
-            queryInsert.executeUpdate();
 
+            queryInsert.executeUpdate();
             conn.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -75,21 +75,23 @@ public class SQL {
         }
     }
 
-    public static void insertTeacher(Teacher teacher) {
+    public static void insertTeacher(Teacher teacher, ClassGroup classGroup) {
         PreparedStatement queryInsert = null;
 
         try {
             conn = DBConnector.getConnection();
             conn.setAutoCommit(false);
 
-            queryInsert = conn.prepareStatement("INSERT INTO teachers(teacher_id, firstname, lastname, email, telephone) VALUES (?, ?, ?, ?, ?)");
+            queryInsert = conn.prepareStatement("INSERT INTO teachers(teacher_id, firstname, lastname, email, telephone, class_id) VALUES (?, ?, ?, ?, ?, ?)");
             queryInsert.setString(1, teacher.getId());
             queryInsert.setString(2, teacher.getFirstName());
             queryInsert.setString(3, teacher.getLastName());
             queryInsert.setString(4, teacher.getEmail());
             queryInsert.setString(5, teacher.getTelephone());
-            queryInsert.executeUpdate();
+            if (classGroup != null) queryInsert.setString(6, classGroup.getId());
+            else queryInsert.setString(6, null);
 
+            queryInsert.executeUpdate();
             conn.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -103,21 +105,23 @@ public class SQL {
         }
     }
 
-    public static void insertStudent(Student student) {
+    public static void insertStudent(Student student, ClassGroup classGroup) {
         PreparedStatement queryInsert = null;
 
         try {
             conn = DBConnector.getConnection();
             conn.setAutoCommit(false);
 
-            queryInsert = conn.prepareStatement("INSERT INTO students(student_id, firstname, lastname, email, telephone) VALUES (?, ?, ?, ?, ?)");
+            queryInsert = conn.prepareStatement("INSERT INTO students(student_id, firstname, lastname, email, telephone, class_id) VALUES (?, ?, ?, ?, ?, ?)");
             queryInsert.setString(1, student.getId());
             queryInsert.setString(2, student.getFirstName());
             queryInsert.setString(3, student.getLastName());
             queryInsert.setString(4, student.getEmail());
             queryInsert.setString(5, student.getTelephone());
-            queryInsert.executeUpdate();
+            if (classGroup != null) queryInsert.setString(6, classGroup.getId());
+            else queryInsert.setString(6, null);
 
+            queryInsert.executeUpdate();
             conn.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

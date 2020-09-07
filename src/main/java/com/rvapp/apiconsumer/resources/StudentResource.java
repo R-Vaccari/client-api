@@ -28,9 +28,9 @@ public class StudentResource {
         return responseBody;
     }
 
-    public void insertParsedStudentsList(String responseBody) throws JsonProcessingException {
+    public void insertParsedStudentsList(String responseBody) {
         Set<Student> listStudents = Parser.parseStudentsList(responseBody);
-        for (Student student : listStudents) SQL.insertStudent(student);
+        for (Student student : listStudents) SQL.insertStudent(student, null);
     }
 
     public String getWebTarget() {

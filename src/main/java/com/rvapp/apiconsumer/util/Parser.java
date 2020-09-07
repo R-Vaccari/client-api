@@ -14,24 +14,42 @@ public class Parser {
 
     static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
-    public static Set<Student> parseStudentsList(String responseBody) throws JsonProcessingException {
-        Set<Student> listStudents = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
-        return listStudents;
+    public static Set<Student> parseStudentsList(String responseBody) {
+        try {
+            Set<Student> listStudents = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
+            return listStudents;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public static void produceStudentsJson(String responseBody) throws IOException {
-        om.writeValue(Paths.get("student-list.json").toFile(), responseBody);
+    public static void produceStudentsJson(String responseBody) {
+        try {
+            om.writeValue(Paths.get("student-list.json").toFile(), responseBody);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void produceClassesJson(String responseBody) throws IOException {
-        om.writeValue(Paths.get("classes-list.json").toFile(), responseBody);
+    public static void produceClassesJson(String responseBody) {
+        try {
+            om.writeValue(Paths.get("classes-list.json").toFile(), responseBody);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static ClassGroup parseClassGroup(String responseBody) throws IOException {
-        ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
+    public static ClassGroup parseClassGroup(String responseBody) {
+        try {
+            ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
-        ClassGroup classGroup = classGroupArray[0];
+            ClassGroup classGroup = classGroupArray[0];
 
-        return classGroup;
+            return classGroup;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -4,11 +4,9 @@ import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
 
-import java.io.IOException;
-
 public class application {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         ClassGroupResource resourceClasses = new ClassGroupResource();
         StudentResource resourceStudents = new StudentResource();

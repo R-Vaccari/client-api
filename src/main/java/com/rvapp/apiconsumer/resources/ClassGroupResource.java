@@ -30,15 +30,15 @@ public class ClassGroupResource {
         return responseBody;
     }
 
-    public void insertParsedClasses(String responseBody) throws IOException {
+    public void insertParsedClasses(String responseBody) {
         ClassGroup classGroup = Parser.parseClassGroup(responseBody);
         SQL.insertClassGroup(classGroup);
 
         Teacher teacher = classGroup.getTeacher();
-        SQL.insertTeacher(teacher);
+        SQL.insertTeacher(teacher, classGroup);
 
         Set<Student> students = classGroup.getStudents();
-        for (Student student : students) SQL.insertStudent(student);
+        for (Student student : students) SQL.insertStudent(student, classGroup);
     }
 
     public String getWebTarget() {

@@ -1,7 +1,6 @@
 package com.rvapp.apiconsumer.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.io.Serializable;
 import java.util.HashSet;
