@@ -11,7 +11,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.util.Set;
 
 public class StudentResource {
 
@@ -29,10 +29,8 @@ public class StudentResource {
     }
 
     public void insertParsedStudentsList(String responseBody) throws JsonProcessingException {
-        List<Student> listStudents = Parser.parseStudentsList(responseBody);
-        for (Student student : listStudents) {
-            SQL.insertStudent(student);
-        }
+        Set<Student> listStudents = Parser.parseStudentsList(responseBody);
+        for (Student student : listStudents) SQL.insertStudent(student);
     }
 
     public String getWebTarget() {

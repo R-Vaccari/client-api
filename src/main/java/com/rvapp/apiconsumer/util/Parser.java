@@ -8,20 +8,15 @@ import com.rvapp.apiconsumer.domain.Student;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Set;
 
 public class Parser {
 
     static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
-    public static List<Student> parseStudentsList(String responseBody) throws JsonProcessingException {
-        List<Student> listStudents = om.readValue(responseBody, new TypeReference<List<Student>>(){});
+    public static Set<Student> parseStudentsList(String responseBody) throws JsonProcessingException {
+        Set<Student> listStudents = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
         return listStudents;
-    }
-
-    public static List<ClassGroup> parseClassesList(String responseBody) throws JsonProcessingException {
-        List<ClassGroup> listClasses = om.readValue(responseBody, new TypeReference<List<ClassGroup>>(){});
-        return listClasses;
     }
 
     public static void produceStudentsJson(String responseBody) throws IOException {
@@ -32,7 +27,7 @@ public class Parser {
         om.writeValue(Paths.get("classes-list.json").toFile(), responseBody);
     }
 
-    public static ClassGroup parseNestedClassList(String responseBody) throws IOException {
+    public static ClassGroup parseClassGroup(String responseBody) throws IOException {
         ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
         ClassGroup classGroup = classGroupArray[0];

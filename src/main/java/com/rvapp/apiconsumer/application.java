@@ -1,5 +1,6 @@
 package com.rvapp.apiconsumer;
 
+import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
 
@@ -12,7 +13,8 @@ public class application {
         ClassGroupResource resourceClasses = new ClassGroupResource();
         StudentResource resourceStudents = new StudentResource();
 
-        resourceStudents.insertParsedStudentsList(resourceStudents.getStudentsList());
+        SQL.createTables();
+        resourceClasses.insertParsedClasses(resourceClasses.getIntermediateClasses());
 
 
 
