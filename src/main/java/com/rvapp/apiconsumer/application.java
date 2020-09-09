@@ -11,8 +11,8 @@ public class application {
         ClassGroupResource resourceClasses = new ClassGroupResource();
         StudentResource resourceStudents = new StudentResource();
 
-        SQL.createTables();
-        resourceClasses.insertParsedClasses(resourceClasses.getIntermediateClasses());
+        //SQL.createTables();
+        resourceClasses.insertParsedClasses(resourceClasses.getClassesByLevel());
 
 
 

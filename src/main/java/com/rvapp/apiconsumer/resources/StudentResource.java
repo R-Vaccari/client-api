@@ -16,7 +16,7 @@ import java.util.Set;
 public class StudentResource {
 
     private Client client = ClientProvider.getClient();
-    private WebTarget getTarget = client.target("https://rvapp-course-api.herokuapp.com").path("students");
+    private WebTarget getTarget = ClientProvider.getWebTarget().path("students");
 
     @Consumes("application/json")
     public String getStudentsList() {

@@ -4,6 +4,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 public class ClientProvider {
 
@@ -14,5 +15,10 @@ public class ClientProvider {
 
     public static Client getClient() {
         return client;
+    }
+
+    public static WebTarget getWebTarget() {
+        WebTarget baseTarget = client.target("https://rvapp-course-api.herokuapp.com");
+        return baseTarget;
     }
 }
