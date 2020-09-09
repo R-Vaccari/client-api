@@ -50,6 +50,22 @@ public class Parser {
         return null;
     }
 
+    public static Set<ClassGroup> parseClassGroupList(String responseBody) {
+        try {
+            ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
+            Set<ClassGroup> classGroupList = null;
+
+            for (ClassGroup classGroup : classGroupArray) {
+                classGroupList.add(classGroup);
+            }
+
+            return classGroupList;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Course parseCourse(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);

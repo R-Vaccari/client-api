@@ -1,6 +1,7 @@
 package com.rvapp.apiconsumer.database;
 
 import com.rvapp.apiconsumer.domain.ClassGroup;
+import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 
@@ -49,17 +50,45 @@ public class SQL {
 
     }
 
-    public static void insertClassGroup(ClassGroup classGroup) {
+    public static void insertCourse(Course course) {
         PreparedStatement queryInsert = null;
 
         try {
             conn = DBConnector.getConnection();
             conn.setAutoCommit(false);
 
-            queryInsert = conn.prepareStatement("INSERT INTO classes(class_id, classname, classlevel) VALUES (?, ?, ?)");
+            queryInsert = conn.prepareStatement("INSERT INTO courses(course_id, coursename, coursetype) VALUES (?, ?, ?)");
+            queryInsert.setString(1, course.getId());
+            queryInsert.setString(2, course.getCourseName());
+            queryInsert.setString(3, course.getType());
+
+            queryInsert.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryInsert != null) queryInsert.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public static void insertClassGroup(ClassGroup classGroup, Course course) {
+        PreparedStatement queryInsert = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryInsert = conn.prepareStatement("INSERT INTO classes(class_id, classname, classlevel, course_id) VALUES (?, ?, ?, ?)");
             queryInsert.setString(1, classGroup.getId());
             queryInsert.setString(2, classGroup.getClassName());
             queryInsert.setString(3, classGroup.getClassLevel());
+            if (course != null) queryInsert.setString(4, course.getId());
+            else queryInsert.setString(4, null);
 
             queryInsert.executeUpdate();
             conn.commit();

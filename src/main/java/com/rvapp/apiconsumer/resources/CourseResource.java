@@ -13,6 +13,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Set;
 
 public class CourseResource {
@@ -82,15 +83,18 @@ public class CourseResource {
 
     public void insertParsedCourse(String responseBody) {
         Course course = Parser.parseCourse(responseBody);
+        SQL.insertCourse(course);
 
-        ClassGroup classGroup = Parser.parseClassGroup(responseBody);
-        SQL.insertClassGroup(classGroup);
+        Set<ClassGroup> classGroupList = course.getClasses();
+        for (ClassGroup classGroup : classGroupList) {
+            SQL.insertClassGroup(classGroup, course);
 
-        Teacher teacher = classGroup.getTeacher();
-        SQL.insertTeacher(teacher, classGroup);
+            Teacher teacher = classGroup.getTeacher();
+            SQL.insertTeacher(teacher, classGroup);
 
-        Set<Student> students = classGroup.getStudents();
-        for (Student student : students) SQL.insertStudent(student, classGroup);
+            Set<Student> students = classGroup.getStudents();
+            for (Student student : students) SQL.insertStudent(student, classGroup);
+        }
     }
 
     public String getWebTarget() {

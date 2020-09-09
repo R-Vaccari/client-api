@@ -1,7 +1,9 @@
 package com.rvapp.apiconsumer;
 
 import com.rvapp.apiconsumer.database.DBConnector;
+import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
+import com.rvapp.apiconsumer.resources.CourseResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
 import com.rvapp.apiconsumer.util.Parser;
 
@@ -14,9 +16,11 @@ public class application {
 
         ClassGroupResource resourceClasses = new ClassGroupResource();
         StudentResource resourceStudents = new StudentResource();
+        CourseResource resourceCourses = new CourseResource();
 
-        //SQL.createTables();
-        resourceClasses.insertParsedClassGroup(resourceClasses.getBusinessClasses());
+        SQL.createTables();
+        //resourceClasses.insertParsedClassGroup(resourceClasses.getBusinessClasses());
+        resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
 
 
         Scanner sc = new Scanner(System.in);
@@ -56,5 +60,6 @@ public class application {
                 break;
         }
         sc.close();
+
     }
 }

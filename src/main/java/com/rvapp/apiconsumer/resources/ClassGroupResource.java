@@ -82,13 +82,26 @@ public class ClassGroupResource {
 
     public void insertParsedClassGroup(String responseBody) {
         ClassGroup classGroup = Parser.parseClassGroup(responseBody);
-        SQL.insertClassGroup(classGroup);
+        SQL.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
         SQL.insertTeacher(teacher, classGroup);
 
         Set<Student> students = classGroup.getStudents();
         for (Student student : students) SQL.insertStudent(student, classGroup);
+    }
+
+    public void insertParsedClassGroupList(String responseBody) {
+        Set<ClassGroup> classGroupList = Parser.parseClassGroupList(responseBody);
+        for (ClassGroup classGroup : classGroupList) {
+            SQL.insertClassGroup(classGroup, null);
+
+            Teacher teacher = classGroup.getTeacher();
+            SQL.insertTeacher(teacher, classGroup);
+
+            Set<Student> students = classGroup.getStudents();
+            for (Student student : students) SQL.insertStudent(student, classGroup);
+        }
     }
 
     public String getWebTarget() {
