@@ -16,11 +16,11 @@ import java.util.Set;
 public class StudentResource {
 
     private Client client = ClientProvider.getClient();
-    private WebTarget getTarget = ClientProvider.getWebTarget().path("students");
+    private WebTarget target = ClientProvider.getWebTarget().path("students");
 
     @Consumes("application/json")
-    public String getStudentsList() {
-        Response getResponse = getTarget.request(MediaType.APPLICATION_JSON_TYPE)
+    public String getAllStudents() {
+        Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
@@ -28,12 +28,22 @@ public class StudentResource {
         return responseBody;
     }
 
-    public void insertParsedStudentsList(String responseBody) {
+    @Consumes("application/json")
+    public String getStudentById(String id) {
+        Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
+                .get();
+
+        String responseBody = getResponse.readEntity(String.class);
+        return responseBody;
+    }
+
+    public void insertParsedStudents(String responseBody) {
         Set<Student> listStudents = Parser.parseStudentsList(responseBody);
         for (Student student : listStudents) SQL.insertStudent(student, null);
     }
 
     public String getWebTarget() {
-        return getTarget.getUri().toString();
+        return target.getUri().toString();
     }
 }

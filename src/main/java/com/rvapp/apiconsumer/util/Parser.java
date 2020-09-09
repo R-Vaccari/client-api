@@ -24,6 +24,19 @@ public class Parser {
         return null;
     }
 
+    public static ClassGroup parseClassGroup(String responseBody) {
+        try {
+            ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
+
+            ClassGroup classGroup = classGroupArray[0];
+
+            return classGroup;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void produceStudentsJson(String responseBody) {
         try {
             om.writeValue(Paths.get("student-list.json").toFile(), responseBody);
@@ -38,18 +51,5 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static ClassGroup parseClassGroup(String responseBody) {
-        try {
-            ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
-
-            ClassGroup classGroup = classGroupArray[0];
-
-            return classGroup;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
