@@ -16,7 +16,7 @@ public class application {
         StudentResource resourceStudents = new StudentResource();
 
         //SQL.createTables();
-        resourceClasses.insertParsedClasses(resourceClasses.getBusinessClasses());
+        resourceClasses.insertParsedClassGroup(resourceClasses.getBusinessClasses());
 
 
         Scanner sc = new Scanner(System.in);
