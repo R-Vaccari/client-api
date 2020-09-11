@@ -5,6 +5,7 @@ import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
+import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
@@ -13,7 +14,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.Set;
 
 public class CourseResource {

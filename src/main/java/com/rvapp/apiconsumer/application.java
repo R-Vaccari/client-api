@@ -5,6 +5,7 @@ import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.CourseResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
+import com.rvapp.apiconsumer.resources.TeacherResource;
 import com.rvapp.apiconsumer.util.Parser;
 
 import java.sql.SQLException;
@@ -14,13 +15,14 @@ public class application {
 
     public static void main(String[] args) throws SQLException {
 
-        ClassGroupResource resourceClasses = new ClassGroupResource();
         StudentResource resourceStudents = new StudentResource();
+        TeacherResource resourceTeachers = new TeacherResource();
+        ClassGroupResource resourceClasses = new ClassGroupResource(resourceStudents, resourceTeachers);
         CourseResource resourceCourses = new CourseResource();
 
-        SQL.createTables();
-        //resourceClasses.insertParsedClassGroup(resourceClasses.getBusinessClasses());
-        resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
+        //SQL.createTables();
+        resourceClasses.insertParsedClassGroupList(resourceClasses.getAllClasses());
+        //resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
 
 
         Scanner sc = new Scanner(System.in);

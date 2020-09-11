@@ -10,6 +10,7 @@ import com.rvapp.apiconsumer.domain.Teacher;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ public class Parser {
 
     public static Set<Student> parseStudentsList(String responseBody) {
         try {
-            Set<Student> listStudents = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
-            return listStudents;
+            Set<Student> students = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
+            return students;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -29,8 +30,8 @@ public class Parser {
 
     public static List<Teacher> parseTeachersList(String responseBody) {
         try {
-            List<Teacher> listTeachers = om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
-            return listTeachers;
+            List<Teacher> teachers = om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
+            return teachers;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -53,9 +54,10 @@ public class Parser {
     public static Set<ClassGroup> parseClassGroupList(String responseBody) {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
-            Set<ClassGroup> classGroupList = null;
+            Set<ClassGroup> classGroupList = new HashSet<>();
 
-            for (ClassGroup classGroup : classGroupArray) {
+            for (int i = 0; i<classGroupArray.length; i++) {
+                ClassGroup classGroup = classGroupArray[i];
                 classGroupList.add(classGroup);
             }
 

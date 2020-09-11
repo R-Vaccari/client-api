@@ -1,8 +1,9 @@
 package com.rvapp.apiconsumer.resources;
 
 import com.rvapp.apiconsumer.database.SQL;
-import com.rvapp.apiconsumer.domain.Student;
+import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Teacher;
+import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
@@ -12,7 +13,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Set;
 
 public class TeacherResource {
 
@@ -42,6 +42,10 @@ public class TeacherResource {
     public void insertParsedTeachers(String responseBody) {
         List<Teacher> listTeachers = Parser.parseTeachersList(responseBody);
         for (Teacher teacher : listTeachers) SQL.insertTeacher(teacher, null);
+    }
+
+    public void insertParsedTeachers(ClassGroup classGroup, Teacher teacher) {
+        SQL.insertTeacher(teacher, classGroup);
     }
 
     public String getWebTarget() {

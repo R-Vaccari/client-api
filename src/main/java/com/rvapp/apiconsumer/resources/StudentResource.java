@@ -1,11 +1,13 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rvapp.apiconsumer.database.SQL;
+import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Student;
+import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -13,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
+@Singleton
 public class StudentResource {
 
     private Client client = ClientProvider.getClient();
@@ -39,8 +42,12 @@ public class StudentResource {
     }
 
     public void insertParsedStudents(String responseBody) {
-        Set<Student> listStudents = Parser.parseStudentsList(responseBody);
-        for (Student student : listStudents) SQL.insertStudent(student, null);
+        Set<Student> students = Parser.parseStudentsList(responseBody);
+        for (Student student : students) SQL.insertStudent(student, null);
+    }
+
+    public void insertParsedStudents(ClassGroup classGroup, Set<Student> students) {
+        for (Student student : students) SQL.insertStudent(student, classGroup);
     }
 
     public String getWebTarget() {

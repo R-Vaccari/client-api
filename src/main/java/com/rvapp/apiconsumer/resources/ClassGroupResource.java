@@ -4,21 +4,32 @@ import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
+import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
+@Singleton
 public class ClassGroupResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("classes");
+    private TeacherResource resourceTeachers;
+    private StudentResource resourceStudents;
+
+    @Inject
+    public ClassGroupResource(StudentResource resourceStudents, TeacherResource resourceTeachers) {
+        this.resourceStudents = resourceStudents;
+        this.resourceTeachers = resourceTeachers;
+    }
 
     @Consumes("application/json")
     public String getAllClasses() {
@@ -85,10 +96,10 @@ public class ClassGroupResource {
         SQL.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
-        SQL.insertTeacher(teacher, classGroup);
+        resourceTeachers.insertParsedTeachers(classGroup, teacher);
 
         Set<Student> students = classGroup.getStudents();
-        for (Student student : students) SQL.insertStudent(student, classGroup);
+        resourceStudents.insertParsedStudents(classGroup, students);
     }
 
     public void insertParsedClassGroupList(String responseBody) {
@@ -97,10 +108,10 @@ public class ClassGroupResource {
             SQL.insertClassGroup(classGroup, null);
 
             Teacher teacher = classGroup.getTeacher();
-            SQL.insertTeacher(teacher, classGroup);
+            resourceTeachers.insertParsedTeachers(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
-            for (Student student : students) SQL.insertStudent(student, classGroup);
+            resourceStudents.insertParsedStudents(classGroup, students);
         }
     }
 

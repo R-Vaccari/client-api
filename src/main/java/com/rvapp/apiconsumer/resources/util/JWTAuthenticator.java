@@ -1,4 +1,4 @@
-package com.rvapp.apiconsumer.resources;
+package com.rvapp.apiconsumer.resources.util;
 
 import com.rvapp.apiconsumer.util.ClientProvider;
 
