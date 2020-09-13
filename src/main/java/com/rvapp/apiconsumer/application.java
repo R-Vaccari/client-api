@@ -22,7 +22,7 @@ public class application {
 
         SQL.createTables();
         //resourceClasses.insertParsedClassGroupList(resourceClasses.getAllClasses());
-        resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
+        //resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
 
 
         Scanner sc = new Scanner(System.in);
@@ -37,31 +37,19 @@ public class application {
 
         switch (sc.nextInt()) {
             case 1:
-                System.out.println("What courses \nAll courses(1) \nA specific course by id");
-
-
-                resourceStudents.insertList(resourceStudents.getAll());
-                System.out.println("Student list inserted in database successfully.");
-                break;
-            case 2:
-                Parser.produceStudentsJson(resourceStudents.getAll());
-                System.out.println("Parse to file successful.");
-                break;
-        }
-
-        System.out.println("Choose between the following: \nInsert Student data in database(1); \nProduce file with Student data(2).");
-
-        switch (sc.nextInt()) {
-            case 1:
-                resourceStudents.insertList(resourceStudents.getAll());
-                System.out.println("Student list inserted in database successfully.");
-                break;
-            case 2:
-                Parser.produceStudentsJson(resourceStudents.getAll());
-                System.out.println("Parse to file successful.");
+                System.out.println("What courses? \nAll courses(1); \nA specific course by id(2).");
+                switch (sc.nextInt()) {
+                    case 1:
+                        resourceCourses.insertSingle(resourceCourses.getAll());
+                        System.out.println("Course list inserted in database successfully.");
+                        break;
+                    case 2:
+                        resourceCourses.insertSingle(resourceCourses.getById(sc.next()));
+                        System.out.println("Student inserted in database successfully.");
+                        break;
+                }
                 break;
         }
         sc.close();
-
     }
 }

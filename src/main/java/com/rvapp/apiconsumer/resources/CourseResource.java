@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
-public class CourseResource {
+public class CourseResource implements GenericResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("courses");
@@ -30,8 +30,9 @@ public class CourseResource {
 
     // ------------ GET methods --------------------------------- //
 
+    @Override
     @Consumes("application/json")
-    public String getAllCourses() {
+    public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -40,8 +41,9 @@ public class CourseResource {
         return responseBody;
     }
 
+    @Override
     @Consumes("application/json")
-    public String getCourseById(String id) {
+    public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -94,7 +96,8 @@ public class CourseResource {
 
     // ------------ Insert methods --------------------------------- //
 
-    public void insertParsedCourse(String responseBody) {
+    @Override
+    public void insertSingle(String responseBody) {
         Course course = Parser.parseCourse(responseBody);
         SQL.insertCourse(course);
 

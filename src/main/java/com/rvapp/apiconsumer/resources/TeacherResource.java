@@ -2,6 +2,7 @@ package com.rvapp.apiconsumer.resources;
 
 import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.domain.ClassGroup;
+import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
@@ -14,15 +15,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class TeacherResource {
+public class TeacherResource implements GenericResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("teachers");
 
     // ------------ GET methods --------------------------------- //
 
+    @Override
     @Consumes("application/json")
-    public String getAllTeachers() {
+    public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -31,8 +33,9 @@ public class TeacherResource {
         return responseBody;
     }
 
+    @Override
     @Consumes("application/json")
-    public String getTeacherById(String id) {
+    public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -46,6 +49,12 @@ public class TeacherResource {
     }
 
     // ------------ Insert methods --------------------------------- //
+
+    @Override
+    public void insertSingle(String responseBody) {
+        Student student = Parser.parseStudent(responseBody);
+        SQL.insertStudent(student, null);
+    }
 
     public void insertParsedTeachers(String responseBody) {
         List<Teacher> listTeachers = Parser.parseTeachersList(responseBody);

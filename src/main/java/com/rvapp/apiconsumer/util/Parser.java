@@ -19,6 +19,8 @@ public class Parser {
 
     static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
+    // ------------ Students --------------------------------- //
+
     public static Student parseStudent(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Student>(){});
@@ -37,6 +39,17 @@ public class Parser {
         return null;
     }
 
+    // ------------ Teachers --------------------------------- //
+
+    public static Teacher parseTeacher(String responseBody) {
+        try {
+            return om.readValue(responseBody, new TypeReference<Teacher>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static List<Teacher> parseTeachersList(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
@@ -45,6 +58,8 @@ public class Parser {
         }
         return null;
     }
+
+    // ------------ Classes --------------------------------- //
 
     public static ClassGroup parseClassGroup(String responseBody) {
         try {
@@ -71,6 +86,8 @@ public class Parser {
         return null;
     }
 
+    // ------------ Courses --------------------------------- //
+
     public static Course parseCourse(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
@@ -81,6 +98,8 @@ public class Parser {
         }
         return null;
     }
+
+    // ------------ File output --------------------------------- //
 
     public static void produceStudentsJson(String responseBody) {
         try {

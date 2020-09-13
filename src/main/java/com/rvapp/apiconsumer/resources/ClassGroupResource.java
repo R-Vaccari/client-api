@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.Set;
 
 @Singleton
-public class ClassGroupResource {
+public class ClassGroupResource implements GenericResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("classes");
@@ -35,8 +35,9 @@ public class ClassGroupResource {
 
     // ------------ GET methods --------------------------------- //
 
+    @Override
     @Consumes("application/json")
-    public String getAllClasses() {
+    public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -45,8 +46,9 @@ public class ClassGroupResource {
         return responseBody;
     }
 
+    @Override
     @Consumes("application/json")
-    public String getClassById(String id) {
+    public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -98,7 +100,8 @@ public class ClassGroupResource {
     // ------------ Insert methods --------------------------------- //
 
     // Single ClassGroup
-    public void insertParsedClassGroup(String responseBody) {
+    @Override
+    public void insertSingle(String responseBody) {
         ClassGroup classGroup = Parser.parseClassGroup(responseBody);
         SQL.insertClassGroup(classGroup, null);
 
