@@ -45,6 +45,7 @@ public class StudentResource implements GenericResource {
         return responseBody;
     }
 
+    @Override
     public String getWebTarget() {
         return target.getUri().toString();
     }
@@ -57,6 +58,7 @@ public class StudentResource implements GenericResource {
         SQL.insertStudent(student, null);
     }
 
+    @Override
     public void insertList(String responseBody) {
         Set<Student> students = Parser.parseStudentsList(responseBody);
         for (Student student : students) SQL.insertStudent(student, null);

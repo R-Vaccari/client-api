@@ -5,14 +5,31 @@ import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SQL {
 
     static Connection conn = null;
+
+    public static void checkTables() {
+        ResultSet tables = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            DatabaseMetaData md = conn.getMetaData();
+            tables = md.getTables(null, null, "%", null);
+            if (!tables.next()) SQL.createTables();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (tables != null) tables.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
 
     public static void createTables() {
         Statement queryTables = null;
@@ -27,13 +44,13 @@ public class SQL {
                     "coursetype varchar(20))"); // Courses
 
             queryTables.addBatch("CREATE TABLE classes (class_id varchar(30) PRIMARY KEY, classname varchar(20), " +
-                    "classlevel varchar(20), course_id varchar(30) REFERENCES courses)"); // Classes
+                    "classlevel varchar(20), course_id varchar(30) REFERENCES courses ON DELETE CASCADE)"); // Classes
 
             queryTables.addBatch("CREATE TABLE students (student_id varchar(30) PRIMARY KEY, firstname varchar(20), " +
-                    "lastname varchar(20), email varchar(20), telephone varchar(20), class_id varchar(30) REFERENCES classes)"); // Students
+                    "lastname varchar(20), email varchar(20), telephone varchar(20), class_id varchar(30) REFERENCES classes ON DELETE CASCADE)"); // Students
 
             queryTables.addBatch("CREATE TABLE teachers (teacher_id varchar(30) PRIMARY KEY, firstname varchar(20), " +
-                    "lastname varchar(20), email varchar(20), telephone varchar(20), class_id varchar(30) REFERENCES classes)"); // Teachers
+                    "lastname varchar(20), email varchar(20), telephone varchar(20), class_id varchar(30) REFERENCES classes ON DELETE CASCADE)"); // Teachers
 
             queryTables.executeBatch();
             conn.commit();
@@ -157,6 +174,34 @@ public class SQL {
         } finally {
             try {
                 if (queryInsert != null) queryInsert.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteAllData() {
+        Statement queryDelete = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryDelete = conn.createStatement();
+
+            queryDelete.addBatch("DELETE FROM courses");
+            queryDelete.addBatch("DELETE FROM classes");
+            queryDelete.addBatch("DELETE FROM teachers");
+            queryDelete.addBatch("DELETE FROM students");
+
+            queryDelete.executeBatch();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryDelete != null) queryDelete.close();
                 if (conn != null) conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

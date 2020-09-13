@@ -97,6 +97,9 @@ public class ClassGroupResource implements GenericResource {
         return responseBody;
     }
 
+    @Override
+    public String getWebTarget() { return target.getUri().toString(); }
+
     // ------------ Insert methods --------------------------------- //
 
     // Single ClassGroup
@@ -113,7 +116,8 @@ public class ClassGroupResource implements GenericResource {
     }
 
     // Multiple ClassGroups
-    public void insertParsedClassGroupList(String responseBody) {
+    @Override
+    public void insertList(String responseBody) {
         Set<ClassGroup> classGroupList = Parser.parseClassGroupList(responseBody);
         for (ClassGroup classGroup : classGroupList) {
             SQL.insertClassGroup(classGroup, null);
@@ -138,6 +142,4 @@ public class ClassGroupResource implements GenericResource {
             resourceStudents.insertList(classGroup, students);
         }
     }
-
-    public String getWebTarget() { return target.getUri().toString(); }
 }

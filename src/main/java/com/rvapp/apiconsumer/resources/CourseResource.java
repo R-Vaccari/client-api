@@ -92,12 +92,22 @@ public class CourseResource implements GenericResource {
         return responseBody;
     }
 
+    @Override
     public String getWebTarget() { return target.getUri().toString(); }
 
     // ------------ Insert methods --------------------------------- //
 
     @Override
     public void insertSingle(String responseBody) {
+        Course course = Parser.parseCourse(responseBody);
+        SQL.insertCourse(course);
+
+        Set<ClassGroup> classGroupList = course.getClasses();
+        resourceClasses.insertParsedClassGroupList(course, classGroupList);
+    }
+
+    @Override
+    public void insertList(String responseBody) {
         Course course = Parser.parseCourse(responseBody);
         SQL.insertCourse(course);
 

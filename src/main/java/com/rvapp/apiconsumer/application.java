@@ -6,7 +6,6 @@ import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.CourseResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
 import com.rvapp.apiconsumer.resources.TeacherResource;
-import com.rvapp.apiconsumer.util.Parser;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -20,10 +19,8 @@ public class application {
         ClassGroupResource resourceClasses = new ClassGroupResource(resourceStudents, resourceTeachers);
         CourseResource resourceCourses = new CourseResource(resourceClasses);
 
-        SQL.createTables();
-        //resourceClasses.insertParsedClassGroupList(resourceClasses.getAllClasses());
-        //resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
-
+        //SQL.createTables();
+        SQL.deleteAllData();
 
         Scanner sc = new Scanner(System.in);
         System.out.println(resourceClasses.getWebTarget());
@@ -37,17 +34,20 @@ public class application {
 
         switch (sc.nextInt()) {
             case 1:
-                System.out.println("What courses? \nAll courses(1); \nA specific course by id(2).");
-                switch (sc.nextInt()) {
-                    case 1:
-                        resourceCourses.insertSingle(resourceCourses.getAll());
-                        System.out.println("Course list inserted in database successfully.");
-                        break;
-                    case 2:
-                        resourceCourses.insertSingle(resourceCourses.getById(sc.next()));
-                        System.out.println("Student inserted in database successfully.");
-                        break;
-                }
+                resourceCourses.insertSingle(resourceCourses.getAll());
+                System.out.println("Course list inserted in database successfully.");
+                break;
+            case 2:
+                resourceClasses.insertList(resourceClasses.getAll());
+                System.out.println("Classes list inserted in database successfully.");
+                break;
+            case 3:
+                resourceTeachers.insertList(resourceTeachers.getAll());
+                System.out.println("Teacher list inserted in database successfully.");
+                break;
+            case 4:
+                resourceStudents.insertList(resourceStudents.getAll());
+                System.out.println("Student list inserted in database successfully.");
                 break;
         }
         sc.close();
