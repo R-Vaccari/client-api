@@ -10,6 +10,7 @@ import com.rvapp.apiconsumer.domain.Teacher;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,10 +19,18 @@ public class Parser {
 
     static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
+    public static Student parseStudent(String responseBody) {
+        try {
+            return om.readValue(responseBody, new TypeReference<Student>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Set<Student> parseStudentsList(String responseBody) {
         try {
-            Set<Student> students = om.readValue(responseBody, new TypeReference<Set<Student>>(){});
-            return students;
+            return om.readValue(responseBody, new TypeReference<Set<Student>>(){});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -30,8 +39,7 @@ public class Parser {
 
     public static List<Teacher> parseTeachersList(String responseBody) {
         try {
-            List<Teacher> teachers = om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
-            return teachers;
+            return om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -42,9 +50,7 @@ public class Parser {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
-            ClassGroup classGroup = classGroupArray[0];
-
-            return classGroup;
+            return classGroupArray[0];
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -56,10 +62,7 @@ public class Parser {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
             Set<ClassGroup> classGroupList = new HashSet<>();
 
-            for (int i = 0; i<classGroupArray.length; i++) {
-                ClassGroup classGroup = classGroupArray[i];
-                classGroupList.add(classGroup);
-            }
+            Collections.addAll(classGroupList, classGroupArray);
 
             return classGroupList;
         } catch (JsonProcessingException e) {
@@ -72,9 +75,7 @@ public class Parser {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
 
-            Course course = courseArray[0];
-
-            return course;
+            return courseArray[0];
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

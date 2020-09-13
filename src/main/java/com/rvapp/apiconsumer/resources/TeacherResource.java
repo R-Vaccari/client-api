@@ -19,6 +19,8 @@ public class TeacherResource {
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("teachers");
 
+    // ------------ GET methods --------------------------------- //
+
     @Consumes("application/json")
     public String getAllTeachers() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
@@ -39,16 +41,21 @@ public class TeacherResource {
         return responseBody;
     }
 
+    public String getWebTarget() {
+        return target.getUri().toString();
+    }
+
+    // ------------ Insert methods --------------------------------- //
+
     public void insertParsedTeachers(String responseBody) {
         List<Teacher> listTeachers = Parser.parseTeachersList(responseBody);
         for (Teacher teacher : listTeachers) SQL.insertTeacher(teacher, null);
     }
 
+    // Called by ClassGroupResource
     public void insertParsedTeachers(ClassGroup classGroup, Teacher teacher) {
         SQL.insertTeacher(teacher, classGroup);
     }
 
-    public String getWebTarget() {
-        return target.getUri().toString();
-    }
+
 }

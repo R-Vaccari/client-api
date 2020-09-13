@@ -18,11 +18,11 @@ public class application {
         StudentResource resourceStudents = new StudentResource();
         TeacherResource resourceTeachers = new TeacherResource();
         ClassGroupResource resourceClasses = new ClassGroupResource(resourceStudents, resourceTeachers);
-        CourseResource resourceCourses = new CourseResource();
+        CourseResource resourceCourses = new CourseResource(resourceClasses);
 
-        //SQL.createTables();
-        resourceClasses.insertParsedClassGroupList(resourceClasses.getAllClasses());
-        //resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
+        SQL.createTables();
+        //resourceClasses.insertParsedClassGroupList(resourceClasses.getAllClasses());
+        resourceCourses.insertParsedCourse(resourceCourses.getAllCourses());
 
 
         Scanner sc = new Scanner(System.in);
@@ -40,11 +40,11 @@ public class application {
                 System.out.println("What courses \nAll courses(1) \nA specific course by id");
 
 
-                resourceStudents.insertParsedStudents(resourceStudents.getAllStudents());
+                resourceStudents.insertList(resourceStudents.getAll());
                 System.out.println("Student list inserted in database successfully.");
                 break;
             case 2:
-                Parser.produceStudentsJson(resourceStudents.getAllStudents());
+                Parser.produceStudentsJson(resourceStudents.getAll());
                 System.out.println("Parse to file successful.");
                 break;
         }
@@ -53,11 +53,11 @@ public class application {
 
         switch (sc.nextInt()) {
             case 1:
-                resourceStudents.insertParsedStudents(resourceStudents.getAllStudents());
+                resourceStudents.insertList(resourceStudents.getAll());
                 System.out.println("Student list inserted in database successfully.");
                 break;
             case 2:
-                Parser.produceStudentsJson(resourceStudents.getAllStudents());
+                Parser.produceStudentsJson(resourceStudents.getAll());
                 System.out.println("Parse to file successful.");
                 break;
         }

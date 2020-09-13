@@ -9,6 +9,7 @@ import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -20,6 +21,14 @@ public class CourseResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("courses");
+    private ClassGroupResource resourceClasses;
+
+    @Inject
+    public CourseResource(ClassGroupResource resourceClasses) {
+        this.resourceClasses = resourceClasses;
+    }
+
+    // ------------ GET methods --------------------------------- //
 
     @Consumes("application/json")
     public String getAllCourses() {
@@ -81,23 +90,15 @@ public class CourseResource {
         return responseBody;
     }
 
+    public String getWebTarget() { return target.getUri().toString(); }
+
+    // ------------ Insert methods --------------------------------- //
+
     public void insertParsedCourse(String responseBody) {
         Course course = Parser.parseCourse(responseBody);
         SQL.insertCourse(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
-        for (ClassGroup classGroup : classGroupList) {
-            SQL.insertClassGroup(classGroup, course);
-
-            Teacher teacher = classGroup.getTeacher();
-            SQL.insertTeacher(teacher, classGroup);
-
-            Set<Student> students = classGroup.getStudents();
-            for (Student student : students) SQL.insertStudent(student, classGroup);
-        }
-    }
-
-    public String getWebTarget() {
-        return target.getUri().toString();
+        resourceClasses.insertParsedClassGroupList(course, classGroupList);
     }
 }

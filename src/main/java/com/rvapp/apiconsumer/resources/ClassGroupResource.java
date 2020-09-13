@@ -2,6 +2,7 @@ package com.rvapp.apiconsumer.resources;
 
 import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.domain.ClassGroup;
+import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
@@ -30,6 +31,9 @@ public class ClassGroupResource {
         this.resourceStudents = resourceStudents;
         this.resourceTeachers = resourceTeachers;
     }
+
+
+    // ------------ GET methods --------------------------------- //
 
     @Consumes("application/json")
     public String getAllClasses() {
@@ -91,6 +95,9 @@ public class ClassGroupResource {
         return responseBody;
     }
 
+    // ------------ Insert methods --------------------------------- //
+
+    // Single ClassGroup
     public void insertParsedClassGroup(String responseBody) {
         ClassGroup classGroup = Parser.parseClassGroup(responseBody);
         SQL.insertClassGroup(classGroup, null);
@@ -99,9 +106,10 @@ public class ClassGroupResource {
         resourceTeachers.insertParsedTeachers(classGroup, teacher);
 
         Set<Student> students = classGroup.getStudents();
-        resourceStudents.insertParsedStudents(classGroup, students);
+        resourceStudents.insertList(classGroup, students);
     }
 
+    // Multiple ClassGroups
     public void insertParsedClassGroupList(String responseBody) {
         Set<ClassGroup> classGroupList = Parser.parseClassGroupList(responseBody);
         for (ClassGroup classGroup : classGroupList) {
@@ -111,11 +119,22 @@ public class ClassGroupResource {
             resourceTeachers.insertParsedTeachers(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
-            resourceStudents.insertParsedStudents(classGroup, students);
+            resourceStudents.insertList(classGroup, students);
         }
     }
 
-    public String getWebTarget() {
-        return target.getUri().toString();
+    // Called by CourseResource
+    public void insertParsedClassGroupList(Course course, Set<ClassGroup> classGroupList) {
+        for (ClassGroup classGroup : classGroupList) {
+            SQL.insertClassGroup(classGroup, course);
+
+            Teacher teacher = classGroup.getTeacher();
+            resourceTeachers.insertParsedTeachers(classGroup, teacher);
+
+            Set<Student> students = classGroup.getStudents();
+            resourceStudents.insertList(classGroup, students);
+        }
     }
+
+    public String getWebTarget() { return target.getUri().toString(); }
 }

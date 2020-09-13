@@ -16,13 +16,16 @@ import javax.ws.rs.core.Response;
 import java.util.Set;
 
 @Singleton
-public class StudentResource {
+public class StudentResource implements GenericResource {
 
     private Client client = ClientProvider.getClient();
     private WebTarget target = ClientProvider.getWebTarget().path("students");
 
+    // ------------ GET methods --------------------------------- //
+
+    @Override
     @Consumes("application/json")
-    public String getAllStudents() {
+    public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -31,8 +34,9 @@ public class StudentResource {
         return responseBody;
     }
 
+    @Override
     @Consumes("application/json")
-    public String getStudentById(String id) {
+    public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
@@ -41,16 +45,25 @@ public class StudentResource {
         return responseBody;
     }
 
-    public void insertParsedStudents(String responseBody) {
+    public String getWebTarget() {
+        return target.getUri().toString();
+    }
+
+    // ------------ Insert methods --------------------------------- //
+
+    @Override
+    public void insertSingle(String responseBody) {
+        Student student = Parser.parseStudent(responseBody);
+        SQL.insertStudent(student, null);
+    }
+
+    public void insertList(String responseBody) {
         Set<Student> students = Parser.parseStudentsList(responseBody);
         for (Student student : students) SQL.insertStudent(student, null);
     }
 
-    public void insertParsedStudents(ClassGroup classGroup, Set<Student> students) {
+    // Called by ClassGroupResource
+    public void insertList(ClassGroup classGroup, Set<Student> students) {
         for (Student student : students) SQL.insertStudent(student, classGroup);
-    }
-
-    public String getWebTarget() {
-        return target.getUri().toString();
     }
 }
