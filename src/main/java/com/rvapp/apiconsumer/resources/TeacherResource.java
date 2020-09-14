@@ -2,14 +2,12 @@ package com.rvapp.apiconsumer.resources;
 
 import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.domain.ClassGroup;
-import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,8 +15,7 @@ import java.util.List;
 
 public class TeacherResource implements GenericResource {
 
-    private Client client = ClientProvider.getClient();
-    private WebTarget target = ClientProvider.getWebTarget().path("teachers");
+    private final WebTarget target = ClientProvider.getWebTarget().path("teachers");
 
     // ------------ GET methods --------------------------------- //
 
@@ -29,8 +26,7 @@ public class TeacherResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -40,8 +36,7 @@ public class TeacherResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -53,8 +48,8 @@ public class TeacherResource implements GenericResource {
 
     @Override
     public void insertSingle(String responseBody) {
-        Student student = Parser.parseStudent(responseBody);
-        SQL.insertStudent(student, null);
+        Teacher teacher = Parser.parseTeacher(responseBody);
+        SQL.insertTeacher(teacher, null);
     }
 
     @Override
@@ -64,7 +59,7 @@ public class TeacherResource implements GenericResource {
     }
 
     // Called by ClassGroupResource
-    public void insertParsedTeachers(ClassGroup classGroup, Teacher teacher) {
+    public void insertList(ClassGroup classGroup, Teacher teacher) {
         SQL.insertTeacher(teacher, classGroup);
     }
 

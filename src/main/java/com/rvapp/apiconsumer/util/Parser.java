@@ -99,6 +99,20 @@ public class Parser {
         return null;
     }
 
+    public static Set<Course> parseCourseList(String responseBody) {
+        try {
+            Course[] courseArray = om.readValue(responseBody, Course[].class);
+            Set<Course> courseSet = new HashSet<>();
+
+            Collections.addAll(courseSet, courseArray);
+
+            return courseSet;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // ------------ File output --------------------------------- //
 
     public static void produceStudentsJson(String responseBody) {

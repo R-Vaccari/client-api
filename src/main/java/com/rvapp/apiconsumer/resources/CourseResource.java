@@ -3,15 +3,12 @@ package com.rvapp.apiconsumer.resources;
 import com.rvapp.apiconsumer.database.SQL;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
-import com.rvapp.apiconsumer.domain.Student;
-import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
 import com.rvapp.apiconsumer.util.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,9 +16,8 @@ import java.util.Set;
 
 public class CourseResource implements GenericResource {
 
-    private Client client = ClientProvider.getClient();
-    private WebTarget target = ClientProvider.getWebTarget().path("courses");
-    private ClassGroupResource resourceClasses;
+    private final WebTarget target = ClientProvider.getWebTarget().path("courses");
+    private final ClassGroupResource resourceClasses;
 
     @Inject
     public CourseResource(ClassGroupResource resourceClasses) {
@@ -37,8 +33,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -48,8 +43,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -58,8 +52,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -68,8 +61,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -78,8 +70,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -88,8 +79,7 @@ public class CourseResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -103,15 +93,16 @@ public class CourseResource implements GenericResource {
         SQL.insertCourse(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
-        resourceClasses.insertParsedClassGroupList(course, classGroupList);
+        resourceClasses.insertList(course, classGroupList);
     }
 
     @Override
     public void insertList(String responseBody) {
-        Course course = Parser.parseCourse(responseBody);
-        SQL.insertCourse(course);
-
-        Set<ClassGroup> classGroupList = course.getClasses();
-        resourceClasses.insertParsedClassGroupList(course, classGroupList);
+        Set<Course> courses = Parser.parseCourseList(responseBody);
+        for (Course course : courses) {
+            SQL.insertCourse(course);
+            Set<ClassGroup> classGroupList = course.getClasses();
+            resourceClasses.insertList(course, classGroupList);
+        }
     }
 }

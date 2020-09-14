@@ -12,7 +12,6 @@ import com.rvapp.apiconsumer.util.Parser;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,10 +20,9 @@ import java.util.Set;
 @Singleton
 public class ClassGroupResource implements GenericResource {
 
-    private Client client = ClientProvider.getClient();
-    private WebTarget target = ClientProvider.getWebTarget().path("classes");
-    private TeacherResource resourceTeachers;
-    private StudentResource resourceStudents;
+    private final WebTarget target = ClientProvider.getWebTarget().path("classes");
+    private final TeacherResource resourceTeachers;
+    private final StudentResource resourceStudents;
 
     @Inject
     public ClassGroupResource(StudentResource resourceStudents, TeacherResource resourceTeachers) {
@@ -42,8 +40,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -53,8 +50,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -63,8 +59,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -73,8 +68,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -83,8 +77,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Consumes("application/json")
@@ -93,8 +86,7 @@ public class ClassGroupResource implements GenericResource {
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
                 .get();
 
-        String responseBody = getResponse.readEntity(String.class);
-        return responseBody;
+        return getResponse.readEntity(String.class);
     }
 
     @Override
@@ -109,7 +101,7 @@ public class ClassGroupResource implements GenericResource {
         SQL.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
-        resourceTeachers.insertParsedTeachers(classGroup, teacher);
+        resourceTeachers.insertList(classGroup, teacher);
 
         Set<Student> students = classGroup.getStudents();
         resourceStudents.insertList(classGroup, students);
@@ -123,7 +115,7 @@ public class ClassGroupResource implements GenericResource {
             SQL.insertClassGroup(classGroup, null);
 
             Teacher teacher = classGroup.getTeacher();
-            resourceTeachers.insertParsedTeachers(classGroup, teacher);
+            resourceTeachers.insertList(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
             resourceStudents.insertList(classGroup, students);
@@ -131,12 +123,12 @@ public class ClassGroupResource implements GenericResource {
     }
 
     // Called by CourseResource
-    public void insertParsedClassGroupList(Course course, Set<ClassGroup> classGroupList) {
+    public void insertList(Course course, Set<ClassGroup> classGroupList) {
         for (ClassGroup classGroup : classGroupList) {
             SQL.insertClassGroup(classGroup, course);
 
             Teacher teacher = classGroup.getTeacher();
-            resourceTeachers.insertParsedTeachers(classGroup, teacher);
+            resourceTeachers.insertList(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
             resourceStudents.insertList(classGroup, students);
