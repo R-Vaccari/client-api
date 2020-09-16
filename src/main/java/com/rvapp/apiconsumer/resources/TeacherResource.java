@@ -1,17 +1,12 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.database.SQLService;
-import com.rvapp.apiconsumer.domain.ClassGroup;
-import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
 import com.rvapp.apiconsumer.util.ClientProvider;
-import com.rvapp.apiconsumer.util.Parser;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class TeacherResource implements GenericResource {
 
@@ -43,25 +38,5 @@ public class TeacherResource implements GenericResource {
     public String getWebTarget() {
         return target.getUri().toString();
     }
-
-    // ------------ Insert methods --------------------------------- //
-
-    @Override
-    public void insertSingle(String responseBody) {
-        Teacher teacher = Parser.parseTeacher(responseBody);
-        SQLService.insertTeacher(teacher, null);
-    }
-
-    @Override
-    public void insertList(String responseBody) {
-        List<Teacher> listTeachers = Parser.parseTeachersList(responseBody);
-        for (Teacher teacher : listTeachers) SQLService.insertTeacher(teacher, null);
-    }
-
-    // Called by ClassGroupResource
-    public void insertList(ClassGroup classGroup, Teacher teacher) {
-        SQLService.insertTeacher(teacher, classGroup);
-    }
-
 
 }
