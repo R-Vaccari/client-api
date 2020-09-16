@@ -1,6 +1,6 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.database.SQL;
+import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
@@ -90,7 +90,7 @@ public class CourseResource implements GenericResource {
     @Override
     public void insertSingle(String responseBody) {
         Course course = Parser.parseCourse(responseBody);
-        SQL.insertCourse(course);
+        SQLService.insertCourse(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
         resourceClasses.insertList(course, classGroupList);
@@ -100,7 +100,7 @@ public class CourseResource implements GenericResource {
     public void insertList(String responseBody) {
         Set<Course> courses = Parser.parseCourseList(responseBody);
         for (Course course : courses) {
-            SQL.insertCourse(course);
+            SQLService.insertCourse(course);
             Set<ClassGroup> classGroupList = course.getClasses();
             resourceClasses.insertList(course, classGroupList);
         }

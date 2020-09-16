@@ -1,6 +1,6 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.database.SQL;
+import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
@@ -49,18 +49,18 @@ public class TeacherResource implements GenericResource {
     @Override
     public void insertSingle(String responseBody) {
         Teacher teacher = Parser.parseTeacher(responseBody);
-        SQL.insertTeacher(teacher, null);
+        SQLService.insertTeacher(teacher, null);
     }
 
     @Override
     public void insertList(String responseBody) {
         List<Teacher> listTeachers = Parser.parseTeachersList(responseBody);
-        for (Teacher teacher : listTeachers) SQL.insertTeacher(teacher, null);
+        for (Teacher teacher : listTeachers) SQLService.insertTeacher(teacher, null);
     }
 
     // Called by ClassGroupResource
     public void insertList(ClassGroup classGroup, Teacher teacher) {
-        SQL.insertTeacher(teacher, classGroup);
+        SQLService.insertTeacher(teacher, classGroup);
     }
 
 

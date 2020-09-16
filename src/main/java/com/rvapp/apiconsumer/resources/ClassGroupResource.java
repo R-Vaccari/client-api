@@ -1,6 +1,6 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.database.SQL;
+import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
@@ -54,6 +54,15 @@ public class ClassGroupResource implements GenericResource {
     }
 
     @Consumes("application/json")
+    public String getByType(String type) {
+        Response getResponse = target.path("levelsearch").queryParam("level", type.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
+                .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
+                .get();
+
+        return getResponse.readEntity(String.class);
+    }
+
+    @Consumes("application/json")
     public String getIntermediateClasses() {
         Response getResponse = target.path("levelsearch").queryParam("level", "INTERMEDIATE").request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + JWTAuthenticator.authenticate())
@@ -98,7 +107,7 @@ public class ClassGroupResource implements GenericResource {
     @Override
     public void insertSingle(String responseBody) {
         ClassGroup classGroup = Parser.parseClassGroup(responseBody);
-        SQL.insertClassGroup(classGroup, null);
+        SQLService.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
         resourceTeachers.insertList(classGroup, teacher);
@@ -110,9 +119,9 @@ public class ClassGroupResource implements GenericResource {
     // Multiple ClassGroups
     @Override
     public void insertList(String responseBody) {
-        Set<ClassGroup> classGroupList = Parser.parseClassGroupList(responseBody);
-        for (ClassGroup classGroup : classGroupList) {
-            SQL.insertClassGroup(classGroup, null);
+        Set<ClassGroup> classGroups = Parser.parseClassGroupList(responseBody);
+        for (ClassGroup classGroup : classGroups) {
+            SQLService.insertClassGroup(classGroup, null);
 
             Teacher teacher = classGroup.getTeacher();
             resourceTeachers.insertList(classGroup, teacher);
@@ -123,9 +132,9 @@ public class ClassGroupResource implements GenericResource {
     }
 
     // Called by CourseResource
-    public void insertList(Course course, Set<ClassGroup> classGroupList) {
-        for (ClassGroup classGroup : classGroupList) {
-            SQL.insertClassGroup(classGroup, course);
+    public void insertList(Course course, Set<ClassGroup> classGroups) {
+        for (ClassGroup classGroup : classGroups) {
+            SQLService.insertClassGroup(classGroup, course);
 
             Teacher teacher = classGroup.getTeacher();
             resourceTeachers.insertList(classGroup, teacher);

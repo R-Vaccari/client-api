@@ -1,6 +1,6 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.database.SQL;
+import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.resources.util.JWTAuthenticator;
@@ -51,17 +51,17 @@ public class StudentResource implements GenericResource {
     @Override
     public void insertSingle(String responseBody) {
         Student student = Parser.parseStudent(responseBody);
-        SQL.insertStudent(student, null);
+        SQLService.insertStudent(student, null);
     }
 
     @Override
     public void insertList(String responseBody) {
         Set<Student> students = Parser.parseStudentsList(responseBody);
-        for (Student student : students) SQL.insertStudent(student, null);
+        for (Student student : students) SQLService.insertStudent(student, null);
     }
 
     // Called by ClassGroupResource
     public void insertList(ClassGroup classGroup, Set<Student> students) {
-        for (Student student : students) SQL.insertStudent(student, classGroup);
+        for (Student student : students) SQLService.insertStudent(student, classGroup);
     }
 }

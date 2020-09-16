@@ -7,7 +7,7 @@ import com.rvapp.apiconsumer.domain.Teacher;
 
 import java.sql.*;
 
-public class SQL {
+public class SQLService {
 
     static Connection conn = null;
 
@@ -18,7 +18,7 @@ public class SQL {
             conn = DBConnector.getConnection();
             DatabaseMetaData md = conn.getMetaData();
             tables = md.getTables(null, null, "%", null);
-            if (!tables.next()) SQL.createTables();
+            if (!tables.next()) SQLService.createTables();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {

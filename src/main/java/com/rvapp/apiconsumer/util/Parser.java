@@ -8,8 +8,6 @@ import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -111,23 +109,5 @@ public class Parser {
             e.printStackTrace();
         }
         return null;
-    }
-
-    // ------------ File output --------------------------------- //
-
-    public static void produceStudentsJson(String responseBody) {
-        try {
-            om.writeValue(Paths.get("student-list.json").toFile(), responseBody);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void produceClassesJson(String responseBody) {
-        try {
-            om.writeValue(Paths.get("classes-list.json").toFile(), responseBody);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

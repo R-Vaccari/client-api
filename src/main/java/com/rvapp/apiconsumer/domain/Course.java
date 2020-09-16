@@ -15,7 +15,6 @@ public class Course implements Serializable {
     private Set<ClassGroup> classes = new HashSet<>();
 
     public Course() {
-
     }
 
     public Course(String id, String courseName, String courseType) {
