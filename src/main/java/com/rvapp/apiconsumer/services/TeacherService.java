@@ -23,8 +23,8 @@ public class TeacherService implements GenericService {
         for (Teacher teacher : listTeachers) SQLService.insertTeacher(teacher, null);
     }
 
-    // Called by ClassGroupResource
-    public void insertList(ClassGroup classGroup, Teacher teacher) {
+    // Called by ClassGroupService
+    public void insertSingle(ClassGroup classGroup, Teacher teacher) {
         SQLService.insertTeacher(teacher, classGroup);
     }
 

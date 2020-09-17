@@ -7,7 +7,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class JWTAuthenticator {
+public class AuthenticationService {
 
     public static String authenticate() {
         WebTarget authTarget = ClientProvider.getClient().target("https://rvapp-course-api.herokuapp.com").path("authenticate");

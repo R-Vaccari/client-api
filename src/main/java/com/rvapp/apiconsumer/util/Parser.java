@@ -13,13 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Parser {
+public interface Parser {
 
-    static ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
+    ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
 
     // ------------ Students --------------------------------- //
 
-    public static Student parseStudent(String responseBody) {
+    static Student parseStudent(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Student>(){});
         } catch (JsonProcessingException e) {
@@ -28,7 +28,7 @@ public class Parser {
         return null;
     }
 
-    public static Set<Student> parseStudentsList(String responseBody) {
+    static Set<Student> parseStudentsList(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Set<Student>>(){});
         } catch (JsonProcessingException e) {
@@ -39,7 +39,7 @@ public class Parser {
 
     // ------------ Teachers --------------------------------- //
 
-    public static Teacher parseTeacher(String responseBody) {
+    static Teacher parseTeacher(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Teacher>(){});
         } catch (JsonProcessingException e) {
@@ -48,7 +48,7 @@ public class Parser {
         return null;
     }
 
-    public static List<Teacher> parseTeachersList(String responseBody) {
+    static List<Teacher> parseTeachersList(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
         } catch (JsonProcessingException e) {
@@ -59,7 +59,7 @@ public class Parser {
 
     // ------------ Classes --------------------------------- //
 
-    public static ClassGroup parseClassGroup(String responseBody) {
+    static ClassGroup parseClassGroup(String responseBody) {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
@@ -70,7 +70,7 @@ public class Parser {
         return null;
     }
 
-    public static Set<ClassGroup> parseClassGroupList(String responseBody) {
+    static Set<ClassGroup> parseClassGroupList(String responseBody) {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
             Set<ClassGroup> classGroupList = new HashSet<>();
@@ -86,7 +86,7 @@ public class Parser {
 
     // ------------ Courses --------------------------------- //
 
-    public static Course parseCourse(String responseBody) {
+    static Course parseCourse(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
 
@@ -97,7 +97,7 @@ public class Parser {
         return null;
     }
 
-    public static Set<Course> parseCourseList(String responseBody) {
+    static Set<Course> parseCourseList(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
             Set<Course> courseSet = new HashSet<>();

@@ -14,13 +14,13 @@ import java.util.Set;
 @Singleton
 public class ClassGroupService implements GenericService {
 
-    private final StudentService serviceStudent;
-    private final TeacherService serviceTeacher;
+    private final StudentService serviceStudents;
+    private final TeacherService serviceTeachers;
 
     @Inject
-    public ClassGroupService(StudentService serviceStudent, TeacherService serviceTeacher ) {
-        this.serviceStudent = serviceStudent;
-        this.serviceTeacher = serviceTeacher;
+    public ClassGroupService(StudentService serviceStudents, TeacherService serviceTeachers) {
+        this.serviceStudents = serviceStudents;
+        this.serviceTeachers = serviceTeachers;
     }
 
     // Single ClassGroup
@@ -30,10 +30,10 @@ public class ClassGroupService implements GenericService {
         SQLService.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
-        serviceTeacher.insertList(classGroup, teacher);
+        serviceTeachers.insertSingle(classGroup, teacher);
 
         Set<Student> students = classGroup.getStudents();
-        serviceStudent.insertList(classGroup, students);
+        serviceStudents.insertList(classGroup, students);
     }
 
     // Multiple ClassGroups
@@ -44,10 +44,10 @@ public class ClassGroupService implements GenericService {
             SQLService.insertClassGroup(classGroup, null);
 
             Teacher teacher = classGroup.getTeacher();
-            serviceTeacher.insertList(classGroup, teacher);
+            serviceTeachers.insertSingle(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
-            serviceStudent.insertList(classGroup, students);
+            serviceStudents.insertList(classGroup, students);
         }
     }
 
@@ -57,10 +57,10 @@ public class ClassGroupService implements GenericService {
             SQLService.insertClassGroup(classGroup, course);
 
             Teacher teacher = classGroup.getTeacher();
-            serviceTeacher.insertList(classGroup, teacher);
+            serviceTeachers.insertSingle(classGroup, teacher);
 
             Set<Student> students = classGroup.getStudents();
-            serviceStudent.insertList(classGroup, students);
+            serviceStudents.insertList(classGroup, students);
         }
     }
 }

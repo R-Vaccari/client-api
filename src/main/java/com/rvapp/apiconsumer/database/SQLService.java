@@ -7,7 +7,7 @@ import com.rvapp.apiconsumer.domain.Teacher;
 
 import java.sql.*;
 
-public class SQLService {
+public final class SQLService {
 
     static Connection conn = null;
 

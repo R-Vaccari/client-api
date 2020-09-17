@@ -23,7 +23,7 @@ public class StudentService implements GenericService {
         for (Student student : students) SQLService.insertStudent(student, null);
     }
 
-    // Called by ClassGroupResource
+    // Called by ClassGroupService
     public void insertList(ClassGroup classGroup, Set<Student> students) {
         for (Student student : students) SQLService.insertStudent(student, classGroup);
     }
