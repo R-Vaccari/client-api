@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CourseParser implements Parser {
+public class CourseParser implements GenericParser {
 
     public static Course parseCourse(String responseBody) {
         try {

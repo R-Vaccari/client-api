@@ -3,7 +3,6 @@ package com.rvapp.apiconsumer.services;
 import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Student;
-import com.rvapp.apiconsumer.services.util.Parser;
 import com.rvapp.apiconsumer.services.util.StudentParser;
 
 import javax.inject.Singleton;
@@ -14,7 +13,7 @@ public class StudentService implements GenericService {
 
     @Override
     public void insertSingle(String responseBody) {
-        Student student = StudentParser.parseStudent(responseBody);
+        Student student = StudentParser.parseSingle(responseBody);
         SQLService.insertStudent(student, null);
     }
 

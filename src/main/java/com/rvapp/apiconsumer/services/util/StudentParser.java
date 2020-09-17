@@ -6,9 +6,9 @@ import com.rvapp.apiconsumer.domain.Student;
 
 import java.util.Set;
 
-public class StudentParser implements Parser {
+public class StudentParser implements GenericParser {
 
-    public static Student parseStudent(String responseBody) {
+    public static Student parseSingle(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Student>(){});
         } catch (JsonProcessingException e) {

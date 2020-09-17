@@ -6,7 +6,6 @@ import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
 import com.rvapp.apiconsumer.services.util.ClassGroupParser;
-import com.rvapp.apiconsumer.services.util.Parser;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -4,7 +4,6 @@ import com.rvapp.apiconsumer.database.SQLService;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.services.util.CourseParser;
-import com.rvapp.apiconsumer.services.util.Parser;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

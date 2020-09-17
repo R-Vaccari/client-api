@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ClassGroupParser implements Parser {
+public class ClassGroupParser implements GenericParser {
 
     public static ClassGroup parseClassGroup(String responseBody) {
         try {

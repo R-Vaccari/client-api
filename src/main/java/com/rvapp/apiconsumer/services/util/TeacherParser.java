@@ -6,7 +6,7 @@ import com.rvapp.apiconsumer.domain.Teacher;
 
 import java.util.List;
 
-public class TeacherParser implements Parser {
+public class TeacherParser implements GenericParser {
 
     public static Teacher parseTeacher(String responseBody) {
         try {
