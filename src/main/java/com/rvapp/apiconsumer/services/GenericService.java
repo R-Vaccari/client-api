@@ -1,7 +1,11 @@
 package com.rvapp.apiconsumer.services;
 
+import com.rvapp.apiconsumer.services.util.Parser;
+
 public interface GenericService {
 
-    public void insertSingle(String responseBody);
-    public void insertList(String responseBody);
+    static Parser parser = null;
+
+    void insertSingle(String responseBody);
+    void insertList(String responseBody);
 }

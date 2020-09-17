@@ -1,7 +1,7 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.resources.util.AuthenticationService;
-import com.rvapp.apiconsumer.util.ClientProvider;
+import com.rvapp.apiconsumer.resources.util.AuthenticationResource;
+import com.rvapp.apiconsumer.resources.util.ClientProvider;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.WebTarget;
@@ -18,7 +18,7 @@ public class TeacherResource implements GenericResource {
     @Consumes("application/json")
     public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -28,7 +28,7 @@ public class TeacherResource implements GenericResource {
     @Consumes("application/json")
     public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);

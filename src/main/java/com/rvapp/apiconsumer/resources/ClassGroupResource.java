@@ -1,7 +1,7 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.resources.util.AuthenticationService;
-import com.rvapp.apiconsumer.util.ClientProvider;
+import com.rvapp.apiconsumer.resources.util.AuthenticationResource;
+import com.rvapp.apiconsumer.resources.util.ClientProvider;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -20,7 +20,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -30,7 +30,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -39,7 +39,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getByLevel(String level) {
         Response getResponse = target.path("levelsearch").queryParam("level", level.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -48,7 +48,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getIntermediateClasses() {
         Response getResponse = target.path("levelsearch").queryParam("level", "INTERMEDIATE").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -57,7 +57,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getAdvancedClasses() {
         Response getResponse = target.path("levelsearch").queryParam("level", "ADVANCED").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -66,7 +66,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getBeginnerClasses() {
         Response getResponse = target.path("levelsearch").queryParam("level", "BEGINNER").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -75,7 +75,7 @@ public class ClassGroupResource implements GenericResource {
     @Consumes("application/json")
     public String getBusinessClasses() {
         Response getResponse = target.path("levelsearch").queryParam("level", "BUSINESS").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);

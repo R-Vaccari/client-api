@@ -1,5 +1,6 @@
-package com.rvapp.apiconsumer.util;
+package com.rvapp.apiconsumer.resources.util;
 
+import com.rvapp.apiconsumer.services.util.ObjectMapperProvider;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;

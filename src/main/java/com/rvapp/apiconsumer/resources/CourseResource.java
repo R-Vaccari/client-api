@@ -1,7 +1,7 @@
 package com.rvapp.apiconsumer.resources;
 
-import com.rvapp.apiconsumer.resources.util.AuthenticationService;
-import com.rvapp.apiconsumer.util.ClientProvider;
+import com.rvapp.apiconsumer.resources.util.AuthenticationResource;
+import com.rvapp.apiconsumer.resources.util.ClientProvider;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.WebTarget;
@@ -18,7 +18,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getAll() {
         Response getResponse = target.request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -28,7 +28,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getById(String id) {
         Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -37,7 +37,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getByType(String type) {
         Response getResponse = target.path("typesearch").queryParam("type", type.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -46,7 +46,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getEnglishCourses() {
         Response getResponse = target.path("typesearch").queryParam("type", "ENGLISH").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -55,7 +55,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getGermanCourses() {
         Response getResponse = target.path("typesearch").queryParam("type", "GERMAN").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -64,7 +64,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getPortugueseCourses() {
         Response getResponse = target.path("typesearch").queryParam("type", "PORTUGUESE").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);
@@ -73,7 +73,7 @@ public class CourseResource implements GenericResource {
     @Consumes("application/json")
     public String getItalianCourses() {
         Response getResponse = target.path("typesearch").queryParam("type", "ITALIAN").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationService.authenticate())
+                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
 
         return getResponse.readEntity(String.class);

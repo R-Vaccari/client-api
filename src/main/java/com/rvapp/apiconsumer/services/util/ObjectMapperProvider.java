@@ -1,4 +1,4 @@
-package com.rvapp.apiconsumer.util;
+package com.rvapp.apiconsumer.services.util;
 
 
 import com.fasterxml.jackson.databind.DeserializationFeature;

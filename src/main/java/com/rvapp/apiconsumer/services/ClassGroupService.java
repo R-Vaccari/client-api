@@ -5,7 +5,8 @@ import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
-import com.rvapp.apiconsumer.util.Parser;
+import com.rvapp.apiconsumer.services.util.ClassGroupParser;
+import com.rvapp.apiconsumer.services.util.Parser;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,7 +27,7 @@ public class ClassGroupService implements GenericService {
     // Single ClassGroup
     @Override
     public void insertSingle(String responseBody) {
-        ClassGroup classGroup = Parser.parseClassGroup(responseBody);
+        ClassGroup classGroup = ClassGroupParser.parseClassGroup(responseBody);
         SQLService.insertClassGroup(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
@@ -39,7 +40,7 @@ public class ClassGroupService implements GenericService {
     // Multiple ClassGroups
     @Override
     public void insertList(String responseBody) {
-        Set<ClassGroup> classGroups = Parser.parseClassGroupList(responseBody);
+        Set<ClassGroup> classGroups = ClassGroupParser.parseClassGroupList(responseBody);
         for (ClassGroup classGroup : classGroups) {
             SQLService.insertClassGroup(classGroup, null);
 
