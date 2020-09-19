@@ -38,56 +38,36 @@ public class ClassGroupResource implements GenericResource {
     @Override
     @Consumes("application/json")
     public String getById(String id) {
-        Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
+        try {
+            Response getResponse = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
+                    .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
+                    .get();
 
-        return getResponse.readEntity(String.class);
+            int status = getResponse.getStatus();
+            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
+
+            return getResponse.readEntity(String.class);
+        } catch (NotOkHttpStatusException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Consumes("application/json")
     public String getByLevel(String level) {
-        Response getResponse = target.path("levelsearch").queryParam("level", level.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
+        try {
+            Response getResponse = target.path("levelsearch").queryParam("level", level.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
+                    .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
+                    .get();
 
-        return getResponse.readEntity(String.class);
-    }
+            int status = getResponse.getStatus();
+            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
 
-    @Consumes("application/json")
-    public String getIntermediateClasses() {
-        Response getResponse = target.path("levelsearch").queryParam("level", "INTERMEDIATE").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
-
-        return getResponse.readEntity(String.class);
-    }
-
-    @Consumes("application/json")
-    public String getAdvancedClasses() {
-        Response getResponse = target.path("levelsearch").queryParam("level", "ADVANCED").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
-
-        return getResponse.readEntity(String.class);
-    }
-
-    @Consumes("application/json")
-    public String getBeginnerClasses() {
-        Response getResponse = target.path("levelsearch").queryParam("level", "BEGINNER").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
-
-        return getResponse.readEntity(String.class);
-    }
-
-    @Consumes("application/json")
-    public String getBusinessClasses() {
-        Response getResponse = target.path("levelsearch").queryParam("level", "BUSINESS").request(MediaType.APPLICATION_JSON_TYPE)
-                .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
-                .get();
-
-        return getResponse.readEntity(String.class);
+            return getResponse.readEntity(String.class);
+        } catch (NotOkHttpStatusException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
