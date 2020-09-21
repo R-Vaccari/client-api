@@ -4,11 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.rvapp.apiconsumer.domain.Teacher;
 
-import java.util.List;
+import javax.inject.Singleton;
+import java.util.Set;
 
-public class TeacherParser implements GenericParser {
+@Singleton
+public class TeacherParser implements GenericParser<Teacher> {
 
-    public static Teacher parseTeacher(String responseBody) {
+    @Override
+    public Teacher parseEntity(String responseBody) {
         try {
             return om.readValue(responseBody, new TypeReference<Teacher>(){});
         } catch (JsonProcessingException e) {
@@ -17,9 +20,10 @@ public class TeacherParser implements GenericParser {
         return null;
     }
 
-    public static List<Teacher> parseTeachersList(String responseBody) {
+    @Override
+    public Set<Teacher> parseSet(String responseBody) {
         try {
-            return om.readValue(responseBody, new TypeReference<List<Teacher>>(){});
+            return om.readValue(responseBody, new TypeReference<Set<Teacher>>(){});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

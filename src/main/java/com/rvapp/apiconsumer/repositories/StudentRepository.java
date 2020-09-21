@@ -41,8 +41,6 @@ public class StudentRepository implements GenericRepository<Student> {
         }
     }
 
-
-
     public void insertEntity(Student student, ClassGroup classGroup) {
         PreparedStatement queryInsert = null;
 

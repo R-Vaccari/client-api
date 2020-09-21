@@ -3,13 +3,16 @@ package com.rvapp.apiconsumer.services.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 
+import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ClassGroupParser implements GenericParser {
+@Singleton
+public class ClassGroupParser implements GenericParser<ClassGroup> {
 
-    public static ClassGroup parseClassGroup(String responseBody) {
+    @Override
+    public ClassGroup parseEntity(String responseBody) {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
 
@@ -20,7 +23,8 @@ public class ClassGroupParser implements GenericParser {
         return null;
     }
 
-    public static Set<ClassGroup> parseClassGroupList(String responseBody) {
+    @Override
+    public Set<ClassGroup> parseSet(String responseBody) {
         try {
             ClassGroup[] classGroupArray = om.readValue(responseBody, ClassGroup[].class);
             Set<ClassGroup> classGroupList = new HashSet<>();

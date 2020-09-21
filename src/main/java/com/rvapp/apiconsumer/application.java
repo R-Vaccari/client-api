@@ -13,6 +13,10 @@ import com.rvapp.apiconsumer.services.ClassGroupService;
 import com.rvapp.apiconsumer.services.CourseService;
 import com.rvapp.apiconsumer.services.StudentService;
 import com.rvapp.apiconsumer.services.TeacherService;
+import com.rvapp.apiconsumer.services.util.ClassGroupParser;
+import com.rvapp.apiconsumer.services.util.CourseParser;
+import com.rvapp.apiconsumer.services.util.StudentParser;
+import com.rvapp.apiconsumer.services.util.TeacherParser;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -31,10 +35,15 @@ public class application {
         ClassGroupRepository repositoryClasses = new ClassGroupRepository();
         CourseRepository repositoryCourses = new CourseRepository();
 
-        StudentService serviceStudents = new StudentService(repositoryStudents);
-        TeacherService serviceTeachers = new TeacherService(repositoryTeachers);
-        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers, repositoryClasses);
-        CourseService serviceCourses = new CourseService(serviceClasses, repositoryCourses);
+        CourseParser parserCources = new CourseParser();
+        ClassGroupParser parserClasses = new ClassGroupParser();
+        StudentParser parserStudents = new StudentParser();
+        TeacherParser parserTeachers = new TeacherParser();
+
+        StudentService serviceStudents = new StudentService(repositoryStudents, parserStudents);
+        TeacherService serviceTeachers = new TeacherService(repositoryTeachers, parserTeachers);
+        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers, repositoryClasses, parserClasses);
+        CourseService serviceCourses = new CourseService(serviceClasses, repositoryCourses, parserCources);
 
         Scanner sc = new Scanner(System.in);
         System.out.println(resourceClasses.getWebTarget());

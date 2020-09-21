@@ -41,8 +41,6 @@ public class TeacherRepository implements GenericRepository<Teacher> {
         }
     }
 
-
-
     public void insertEntity(Teacher teacher, ClassGroup classGroup) {
         PreparedStatement queryInsert = null;
 

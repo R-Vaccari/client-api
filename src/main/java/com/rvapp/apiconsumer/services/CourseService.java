@@ -12,18 +12,20 @@ import java.util.Set;
 @Singleton
 public class CourseService implements GenericService {
 
-    private final ClassGroupService serviceClasses;
-    private final CourseRepository repositoryCourses;
+    @Inject private ClassGroupService serviceClasses;
+    @Inject private CourseRepository repositoryCourses;
+    @Inject private CourseParser parserCourses;
 
     @Inject
-    public CourseService(ClassGroupService serviceClasses, CourseRepository repositoryCourses) {
+    public CourseService(ClassGroupService serviceClasses, CourseRepository repositoryCourses, CourseParser parserCourses) {
         this.serviceClasses = serviceClasses;
         this.repositoryCourses = repositoryCourses;
+        this.parserCourses = parserCourses;
     }
 
     @Override
     public void insertSingle(String responseBody) {
-        Course course = CourseParser.parseCourse(responseBody);
+        Course course = parserCourses.parseEntity(responseBody);
         repositoryCourses.insertEntity(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
@@ -32,7 +34,7 @@ public class CourseService implements GenericService {
 
     @Override
     public void insertList(String responseBody) {
-        Set<Course> courses = CourseParser.parseCourseList(responseBody);
+        Set<Course> courses = parserCourses.parseSet(responseBody);
         for (Course course : courses) {
             repositoryCourses.insertEntity(course);
             Set<ClassGroup> classGroupList = course.getClasses();

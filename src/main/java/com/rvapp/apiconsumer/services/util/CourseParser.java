@@ -3,13 +3,16 @@ package com.rvapp.apiconsumer.services.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rvapp.apiconsumer.domain.Course;
 
+import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CourseParser implements GenericParser {
+@Singleton
+public class CourseParser implements GenericParser<Course> {
 
-    public static Course parseCourse(String responseBody) {
+    @Override
+    public Course parseEntity(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
 
@@ -20,7 +23,8 @@ public class CourseParser implements GenericParser {
         return null;
     }
 
-    public static Set<Course> parseCourseList(String responseBody) {
+    @Override
+    public Set<Course> parseSet(String responseBody) {
         try {
             Course[] courseArray = om.readValue(responseBody, Course[].class);
             Set<Course> courseSet = new HashSet<>();

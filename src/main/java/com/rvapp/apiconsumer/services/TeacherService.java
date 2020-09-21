@@ -1,38 +1,41 @@
 package com.rvapp.apiconsumer.services;
 
-import com.rvapp.apiconsumer.repositories.TeacherRepository;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Teacher;
+import com.rvapp.apiconsumer.repositories.TeacherRepository;
 import com.rvapp.apiconsumer.services.util.TeacherParser;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class TeacherService implements GenericService {
 
-    private final TeacherRepository repositoryTeacher;
+    @Inject private TeacherRepository repositoryTeachers;
+    @Inject private TeacherParser parserTeachers;
 
-    public TeacherService(TeacherRepository repositoryTeacher) {
-
-        this.repositoryTeacher = repositoryTeacher;
+    @Inject
+    public TeacherService(TeacherRepository repositoryTeacher, TeacherParser parserTeachers) {
+        this.repositoryTeachers = repositoryTeacher;
+        this.parserTeachers = parserTeachers;
     }
 
     @Override
     public void insertSingle(String responseBody) {
-        Teacher teacher = TeacherParser.parseTeacher(responseBody);
-        repositoryTeacher.insertEntity(teacher);
+        Teacher teacher = parserTeachers.parseEntity(responseBody);
+        repositoryTeachers.insertEntity(teacher);
     }
 
     @Override
     public void insertList(String responseBody) {
-        List<Teacher> listTeachers = TeacherParser.parseTeachersList(responseBody);
-        for (Teacher teacher : listTeachers) repositoryTeacher.insertEntity(teacher, null);
+        Set<Teacher> listTeachers = parserTeachers.parseSet(responseBody);
+        for (Teacher teacher : listTeachers) repositoryTeachers.insertEntity(teacher, null);
     }
 
     // Called by ClassGroupService
     public void insertSingle(ClassGroup classGroup, Teacher teacher) {
-        repositoryTeacher.insertEntity(teacher, classGroup);
+        repositoryTeachers.insertEntity(teacher, classGroup);
     }
 
 }

@@ -14,21 +14,23 @@ import java.util.Set;
 @Singleton
 public class ClassGroupService implements GenericService {
 
-    private final StudentService serviceStudents;
-    private final TeacherService serviceTeachers;
-    private final ClassGroupRepository repositoryClasses;
+    @Inject private StudentService serviceStudents;
+    @Inject private TeacherService serviceTeachers;
+    @Inject private ClassGroupRepository repositoryClasses;
+    @Inject private ClassGroupParser parserClasses;
 
     @Inject
-    public ClassGroupService(StudentService serviceStudents, TeacherService serviceTeachers, ClassGroupRepository repositoryClasses) {
+    public ClassGroupService(StudentService serviceStudents, TeacherService serviceTeachers, ClassGroupRepository repositoryClasses, ClassGroupParser parserClasses) {
         this.serviceStudents = serviceStudents;
         this.serviceTeachers = serviceTeachers;
         this.repositoryClasses = repositoryClasses;
+        this.parserClasses = parserClasses;
     }
 
     // Single ClassGroup
     @Override
     public void insertSingle(String responseBody) {
-        ClassGroup classGroup = ClassGroupParser.parseClassGroup(responseBody);
+        ClassGroup classGroup = parserClasses.parseEntity(responseBody);
         repositoryClasses.insertEntity(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
@@ -41,7 +43,7 @@ public class ClassGroupService implements GenericService {
     // Multiple ClassGroups
     @Override
     public void insertList(String responseBody) {
-        Set<ClassGroup> classGroups = ClassGroupParser.parseClassGroupList(responseBody);
+        Set<ClassGroup> classGroups = parserClasses.parseSet(responseBody);
         for (ClassGroup classGroup : classGroups) {
             repositoryClasses.insertEntity(classGroup, null);
 
