@@ -1,7 +1,10 @@
 package com.rvapp.apiconsumer;
 
-import com.rvapp.apiconsumer.database.DBConnector;
-import com.rvapp.apiconsumer.database.SQLService;
+import com.rvapp.apiconsumer.database.*;
+import com.rvapp.apiconsumer.repositories.ClassGroupRepository;
+import com.rvapp.apiconsumer.repositories.CourseRepository;
+import com.rvapp.apiconsumer.repositories.StudentRepository;
+import com.rvapp.apiconsumer.repositories.TeacherRepository;
 import com.rvapp.apiconsumer.resources.ClassGroupResource;
 import com.rvapp.apiconsumer.resources.CourseResource;
 import com.rvapp.apiconsumer.resources.StudentResource;
@@ -23,10 +26,15 @@ public class application {
         ClassGroupResource resourceClasses = new ClassGroupResource();
         CourseResource resourceCourses = new CourseResource();
 
-        StudentService serviceStudents = new StudentService();
-        TeacherService serviceTeachers = new TeacherService();
-        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers);
-        CourseService serviceCourses = new CourseService(serviceClasses);
+        StudentRepository repositoryStudents = new StudentRepository();
+        TeacherRepository repositoryTeachers = new TeacherRepository();
+        ClassGroupRepository repositoryClasses = new ClassGroupRepository();
+        CourseRepository repositoryCourses = new CourseRepository();
+
+        StudentService serviceStudents = new StudentService(repositoryStudents);
+        TeacherService serviceTeachers = new TeacherService(repositoryTeachers);
+        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers, repositoryClasses);
+        CourseService serviceCourses = new CourseService(serviceClasses, repositoryCourses);
 
         Scanner sc = new Scanner(System.in);
         System.out.println(resourceClasses.getWebTarget());
@@ -35,11 +43,11 @@ public class application {
         System.out.println("Connection = " + DBConnector.getConnection().toString() + "\nWould you like to create database tables(1) or delete all data in current database(2)?");
         switch (sc.nextInt()) {
             case 1:
-                SQLService.createTables();
+                DBAdministrator.createTables();
                 System.out.println("Tables created successfully.");
                 break;
             case 2:
-                SQLService.deleteAllData();
+                DBAdministrator.deleteAllData();
                 System.out.println("All data deleted successfully.");
                 break;
         }
