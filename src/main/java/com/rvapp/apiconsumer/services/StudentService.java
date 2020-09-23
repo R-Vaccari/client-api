@@ -38,4 +38,10 @@ public class StudentService implements GenericService {
         for (Student student : students) repositoryStudent.insertEntity(student, classGroup);
     }
 
+    public void deleteById(String id) { repositoryStudent.deleteById(id); }
+
+    public void updateById(Student student, String classGroupId) { repositoryStudent.updateById(student, classGroupId); }
+
+    public void updateSet(Set<Student> students, String classGroupId) { repositoryStudent.updateSet(students, classGroupId); }
+
 }

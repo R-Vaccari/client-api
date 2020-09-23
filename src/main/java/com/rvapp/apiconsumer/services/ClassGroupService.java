@@ -1,10 +1,10 @@
 package com.rvapp.apiconsumer.services;
 
-import com.rvapp.apiconsumer.repositories.ClassGroupRepository;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.domain.Student;
 import com.rvapp.apiconsumer.domain.Teacher;
+import com.rvapp.apiconsumer.repositories.ClassGroupRepository;
 import com.rvapp.apiconsumer.services.util.ClassGroupParser;
 
 import javax.inject.Inject;
@@ -67,4 +67,8 @@ public class ClassGroupService implements GenericService {
             serviceStudents.insertList(classGroup, students);
         }
     }
+
+    public void deleteById(String id) { repositoryClasses.deleteById(id); }
+
+    public void updateById(ClassGroup classGroup, String courseId) { repositoryClasses.updateById(classGroup, courseId); }
 }

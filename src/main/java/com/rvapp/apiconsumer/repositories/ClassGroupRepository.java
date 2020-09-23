@@ -66,4 +66,57 @@ public class ClassGroupRepository implements GenericRepository<ClassGroup> {
             }
         }
     }
+
+    @Override
+    public void deleteById(String id) {
+        PreparedStatement queryDelete = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryDelete = conn.prepareStatement("DELETE FROM classes WHERE class_id = ?");
+            queryDelete.setString(1, id);
+
+            queryDelete.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryDelete != null) queryDelete.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void updateById(ClassGroup classGroup, String courseId) {
+        PreparedStatement queryUpdate = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryUpdate = conn.prepareStatement("UPDATE classes SET classname = ?, classlevel = ?, course_id = ? WHERE class_id = ?");
+            queryUpdate.setString(1, classGroup.getClassName());
+            queryUpdate.setString(2, classGroup.getClassLevel());
+            if (courseId != null) queryUpdate.setString(3, courseId);
+            queryUpdate.setString(4, classGroup.getId());
+
+            queryUpdate.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryUpdate != null) queryUpdate.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
 }

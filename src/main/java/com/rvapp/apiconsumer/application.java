@@ -87,6 +87,31 @@ public class application {
                 System.out.println("Student list inserted in database successfully.");
                 break;
         }
+
+        System.out.println("Which object would you like to update? \nCourses(1); \nClasses(2); \nTeachers(3); \nStudents(4).");
+
+        switch (sc.nextInt()) {
+            case 1:
+                serviceCourses.insertList(resourceCourses.getAll());
+                System.out.println("Target: " + resourceCourses.getWebTarget());
+                System.out.println("Course list inserted in database successfully.");
+                break;
+            case 2:
+                serviceClasses.insertList(resourceClasses.getAll());
+                System.out.println("Target: " + resourceClasses.getWebTarget());
+                System.out.println("Classes list inserted in database successfully.");
+                break;
+            case 3:
+                serviceTeachers.insertList(resourceTeachers.getAll());
+                System.out.println("Target: " + resourceTeachers.getWebTarget());
+                System.out.println("Teacher list inserted in database successfully.");
+                break;
+            case 4:
+                serviceStudents.insertList(resourceStudents.getAll());
+                System.out.println("Target: " + resourceStudents.getWebTarget());
+                System.out.println("Student list inserted in database successfully.");
+                break;
+        }
         sc.close();
     }
 }

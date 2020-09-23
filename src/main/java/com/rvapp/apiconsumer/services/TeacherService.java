@@ -38,4 +38,8 @@ public class TeacherService implements GenericService {
         repositoryTeachers.insertEntity(teacher, classGroup);
     }
 
+    public void deleteById(String id) { repositoryTeachers.deleteById(id); }
+
+    public void updateById(Teacher teacher, String classGroupId) { repositoryTeachers.updateById(teacher, classGroupId); }
+
 }

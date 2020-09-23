@@ -7,6 +7,7 @@ import com.rvapp.apiconsumer.domain.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Set;
 
 public class StudentRepository implements GenericRepository<Student> {
 
@@ -64,6 +65,92 @@ public class StudentRepository implements GenericRepository<Student> {
         } finally {
             try {
                 if (queryInsert != null) queryInsert.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void deleteById(String id) {
+        PreparedStatement queryDelete = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryDelete = conn.prepareStatement("DELETE FROM students WHERE student_id = ?");
+            queryDelete.setString(1, id);
+
+            queryDelete.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryDelete != null) queryDelete.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void updateById(Student student, String classGroupId) {
+        PreparedStatement queryUpdate = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            queryUpdate = conn.prepareStatement("UPDATE students SET firstname = ?, lastname = ?, email = ?, telephone = ?, class_id = ? WHERE class_id = ?");
+            queryUpdate.setString(1, student.getFirstName());
+            queryUpdate.setString(2, student.getLastName());
+            queryUpdate.setString(3, student.getEmail());
+            queryUpdate.setString(4, student.getTelephone());
+            if (classGroupId != null) queryUpdate.setString(5, classGroupId);
+            queryUpdate.setString(6, student.getId());
+
+            queryUpdate.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryUpdate != null) queryUpdate.close();
+                if (conn != null) conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public void updateSet(Set<Student> students, String classGroupId) {
+        PreparedStatement queryUpdate = null;
+
+        try {
+            conn = DBConnector.getConnection();
+            conn.setAutoCommit(false);
+
+            for (Student student : students) {
+                queryUpdate = conn.prepareStatement("UPDATE students SET firstname = ?, lastname = ?, email = ?, telephone = ?, class_id = ? WHERE class_id = ?");
+                queryUpdate.setString(1, student.getFirstName());
+                queryUpdate.setString(2, student.getLastName());
+                queryUpdate.setString(3, student.getEmail());
+                queryUpdate.setString(4, student.getTelephone());
+                if (classGroupId != null) queryUpdate.setString(5, classGroupId);
+                queryUpdate.setString(6, student.getId());
+            }
+
+            queryUpdate.executeUpdate();
+            conn.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (queryUpdate != null) queryUpdate.close();
                 if (conn != null) conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
