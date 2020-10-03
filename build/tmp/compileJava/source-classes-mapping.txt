@@ -1,2 +1,66 @@
-application.java
- application
+com/rvapp/apiconsumer/exceptions/NotOkHttpStatusException.java
+ com.rvapp.apiconsumer.exceptions.NotOkHttpStatusException
+com/rvapp/apiconsumer/services/GenericService.java
+ com.rvapp.apiconsumer.services.GenericService
+com/rvapp/apiconsumer/services/util/GenericParser.java
+ com.rvapp.apiconsumer.services.util.GenericParser
+com/rvapp/apiconsumer/services/TeacherService.java
+ com.rvapp.apiconsumer.services.TeacherService
+com/rvapp/apiconsumer/resources/StudentResource.java
+ com.rvapp.apiconsumer.resources.StudentResource
+com/rvapp/apiconsumer/services/util/ObjectMapperProvider.java
+ com.rvapp.apiconsumer.services.util.ObjectMapperProvider
+com/rvapp/apiconsumer/database/DBConnector.java
+ com.rvapp.apiconsumer.database.DBConnector
+com/rvapp/apiconsumer/domain/Course.java
+ com.rvapp.apiconsumer.domain.Course
+com/rvapp/apiconsumer/repositories/StudentRepository.java
+ com.rvapp.apiconsumer.repositories.StudentRepository
+com/rvapp/apiconsumer/services/CourseService.java
+ com.rvapp.apiconsumer.services.CourseService
+com/rvapp/apiconsumer/repositories/CourseRepository.java
+ com.rvapp.apiconsumer.repositories.CourseRepository
+com/rvapp/apiconsumer/services/util/ClassGroupParser.java
+ com.rvapp.apiconsumer.services.util.ClassGroupParser
+com/rvapp/apiconsumer/resources/CourseResource.java
+ com.rvapp.apiconsumer.resources.CourseResource
+com/rvapp/apiconsumer/domain/Student.java
+ com.rvapp.apiconsumer.domain.Student
+com/rvapp/apiconsumer/resources/util/ClientProvider.java
+ com.rvapp.apiconsumer.resources.util.ClientProvider
+com/rvapp/apiconsumer/services/ClassGroupService.java
+ com.rvapp.apiconsumer.services.ClassGroupService
+com/rvapp/apiconsumer/services/StudentService.java
+ com.rvapp.apiconsumer.services.StudentService
+com/rvapp/apiconsumer/domain/ClassGroup.java
+ com.rvapp.apiconsumer.domain.ClassGroup
+com/rvapp/apiconsumer/resources/ClassGroupResource.java
+ com.rvapp.apiconsumer.resources.ClassGroupResource
+com/rvapp/apiconsumer/resources/util/AuthenticationResource.java
+ com.rvapp.apiconsumer.resources.util.AuthenticationResource
+com/rvapp/apiconsumer/services/util/TeacherParser.java
+ com.rvapp.apiconsumer.services.util.TeacherParser
+ com.rvapp.apiconsumer.services.util.TeacherParser$1
+ com.rvapp.apiconsumer.services.util.TeacherParser$2
+com/rvapp/apiconsumer/services/util/CourseParser.java
+ com.rvapp.apiconsumer.services.util.CourseParser
+com/rvapp/apiconsumer/services/util/StudentParser.java
+ com.rvapp.apiconsumer.services.util.StudentParser
+ com.rvapp.apiconsumer.services.util.StudentParser$1
+ com.rvapp.apiconsumer.services.util.StudentParser$2
+com/rvapp/apiconsumer/repositories/ClassGroupRepository.java
+ com.rvapp.apiconsumer.repositories.ClassGroupRepository
+com/rvapp/apiconsumer/resources/GenericResource.java
+ com.rvapp.apiconsumer.resources.GenericResource
+com/rvapp/apiconsumer/database/DBAdministrator.java
+ com.rvapp.apiconsumer.database.DBAdministrator
+com/rvapp/apiconsumer/repositories/GenericRepository.java
+ com.rvapp.apiconsumer.repositories.GenericRepository
+com/rvapp/apiconsumer/application.java
+ com.rvapp.apiconsumer.application
+com/rvapp/apiconsumer/repositories/TeacherRepository.java
+ com.rvapp.apiconsumer.repositories.TeacherRepository
+com/rvapp/apiconsumer/resources/TeacherResource.java
+ com.rvapp.apiconsumer.resources.TeacherResource
+com/rvapp/apiconsumer/domain/Teacher.java
+ com.rvapp.apiconsumer.domain.Teacher

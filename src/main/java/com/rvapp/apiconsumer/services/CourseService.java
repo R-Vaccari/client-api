@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import java.util.Set;
 
 @Singleton
-public class CourseService implements GenericService {
+public class CourseService implements GenericService<Course> {
 
     @Inject private ClassGroupService serviceClasses;
     @Inject private CourseRepository repositoryCourses;
@@ -24,22 +24,24 @@ public class CourseService implements GenericService {
     }
 
     @Override
-    public void insertSingle(String responseBody) {
+    public Course insertSingle(String responseBody) {
         Course course = parserCourses.parseEntity(responseBody);
         repositoryCourses.insertEntity(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
         serviceClasses.insertList(course, classGroupList);
+        return course;
     }
 
     @Override
-    public void insertList(String responseBody) {
+    public Set<Course> insertList(String responseBody) {
         Set<Course> courses = parserCourses.parseSet(responseBody);
         for (Course course : courses) {
             repositoryCourses.insertEntity(course);
             Set<ClassGroup> classGroupList = course.getClasses();
             serviceClasses.insertList(course, classGroupList);
         }
+        return courses;
     }
 
     public void deleteById(String id) { repositoryCourses.deleteById(id); }

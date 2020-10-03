@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 import java.util.Set;
 
 @Singleton
-public class ClassGroupService implements GenericService {
+public class ClassGroupService implements GenericService<ClassGroup> {
 
     @Inject private StudentService serviceStudents;
     @Inject private TeacherService serviceTeachers;
@@ -29,7 +29,7 @@ public class ClassGroupService implements GenericService {
 
     // Single ClassGroup
     @Override
-    public void insertSingle(String responseBody) {
+    public ClassGroup insertSingle(String responseBody) {
         ClassGroup classGroup = parserClasses.parseEntity(responseBody);
         repositoryClasses.insertEntity(classGroup, null);
 
@@ -38,11 +38,12 @@ public class ClassGroupService implements GenericService {
 
         Set<Student> students = classGroup.getStudents();
         serviceStudents.insertList(classGroup, students);
+        return classGroup;
     }
 
     // Multiple ClassGroups
     @Override
-    public void insertList(String responseBody) {
+    public Set<ClassGroup> insertList(String responseBody) {
         Set<ClassGroup> classGroups = parserClasses.parseSet(responseBody);
         for (ClassGroup classGroup : classGroups) {
             repositoryClasses.insertEntity(classGroup, null);
@@ -53,6 +54,7 @@ public class ClassGroupService implements GenericService {
             Set<Student> students = classGroup.getStudents();
             serviceStudents.insertList(classGroup, students);
         }
+        return classGroups;
     }
 
     // Called by CourseResource

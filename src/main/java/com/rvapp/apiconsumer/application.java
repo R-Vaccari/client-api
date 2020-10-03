@@ -1,5 +1,7 @@
 package com.rvapp.apiconsumer;
 
+import com.rvapp.apiconsumer.database.DBAdministrator;
+import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.repositories.ClassGroupRepository;
 import com.rvapp.apiconsumer.repositories.CourseRepository;
 import com.rvapp.apiconsumer.repositories.StudentRepository;
@@ -17,34 +19,26 @@ import com.rvapp.apiconsumer.services.util.CourseParser;
 import com.rvapp.apiconsumer.services.util.StudentParser;
 import com.rvapp.apiconsumer.services.util.TeacherParser;
 
-import java.sql.SQLException;
+import java.util.Set;
 
 public class application {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         StudentResource resourceStudents = new StudentResource();
         TeacherResource resourceTeachers = new TeacherResource();
         ClassGroupResource resourceClasses = new ClassGroupResource();
         CourseResource resourceCourses = new CourseResource();
 
-        StudentRepository repositoryStudents = new StudentRepository();
-        TeacherRepository repositoryTeachers = new TeacherRepository();
-        ClassGroupRepository repositoryClasses = new ClassGroupRepository();
-        CourseRepository repositoryCourses = new CourseRepository();
+        StudentService serviceStudents = new StudentService(new StudentRepository(), new StudentParser());
+        TeacherService serviceTeachers = new TeacherService(new TeacherRepository(), new TeacherParser());
+        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers, new ClassGroupRepository(), new ClassGroupParser());
+        CourseService serviceCourses = new CourseService(serviceClasses, new CourseRepository(), new CourseParser());
 
-        CourseParser parserCources = new CourseParser();
-        ClassGroupParser parserClasses = new ClassGroupParser();
-        StudentParser parserStudents = new StudentParser();
-        TeacherParser parserTeachers = new TeacherParser();
+        DBAdministrator.deleteAllData();
+        Set<Course> courses = serviceCourses.insertList(resourceCourses.getAll());
 
-        StudentService serviceStudents = new StudentService(repositoryStudents, parserStudents);
-        TeacherService serviceTeachers = new TeacherService(repositoryTeachers, parserTeachers);
-        ClassGroupService serviceClasses = new ClassGroupService(serviceStudents, serviceTeachers, repositoryClasses, parserClasses);
-        CourseService serviceCourses = new CourseService(serviceClasses, repositoryCourses, parserCources);
-
-        System.out.println(resourceClasses.getWebTarget());
-        System.out.println();
+        for (Course course : courses) System.out.println(course);
 
     }
 }

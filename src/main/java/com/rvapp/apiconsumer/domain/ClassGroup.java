@@ -93,4 +93,15 @@ public class ClassGroup implements Serializable {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "ClassGroup{" +
+                "id='" + id + '\'' +
+                ", className='" + className + '\'' +
+                ", classLevel='" + classLevel + '\'' +
+                ", teacher=" + teacher +
+                ", students=" + students +
+                '}';
+    }
 }
