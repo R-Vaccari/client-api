@@ -27,4 +27,18 @@ public class AuthenticationResource {
         }
         return null;
     }
+
+    public static Response getResponse() {
+        try {
+            WebTarget authTarget = ClientProvider.getWebTarget().path("authenticate");
+            String login = "{ \"username\" : \"user\" , \"password\" : \"password\" }";
+
+            Response authentication = authTarget.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.json(login));
+
+            return authentication;
+        } catch (NotOkHttpStatusException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

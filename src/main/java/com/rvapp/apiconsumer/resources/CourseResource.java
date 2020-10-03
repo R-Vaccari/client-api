@@ -69,6 +69,6 @@ public class CourseResource implements GenericResource {
     }
 
     @Override
-    public String getWebTarget() { return target.getUri().toString(); }
+    public WebTarget getWebTarget() { return target; }
 
 }
