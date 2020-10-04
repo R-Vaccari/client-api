@@ -17,20 +17,18 @@ public class ClassGroupService implements GenericService<ClassGroup> {
     @Inject private StudentService serviceStudents;
     @Inject private TeacherService serviceTeachers;
     @Inject private ClassGroupRepository repositoryClasses;
-    @Inject private ClassGroupParser parserClasses;
+
 
     @Inject
-    public ClassGroupService(StudentService serviceStudents, TeacherService serviceTeachers, ClassGroupRepository repositoryClasses, ClassGroupParser parserClasses) {
+    public ClassGroupService(StudentService serviceStudents, TeacherService serviceTeachers, ClassGroupRepository repositoryClasses) {
         this.serviceStudents = serviceStudents;
         this.serviceTeachers = serviceTeachers;
         this.repositoryClasses = repositoryClasses;
-        this.parserClasses = parserClasses;
     }
 
     // Single ClassGroup
     @Override
-    public ClassGroup insertSingle(String responseBody) {
-        ClassGroup classGroup = parserClasses.parseEntity(responseBody);
+    public void insertSingle(ClassGroup classGroup) {
         repositoryClasses.insertEntity(classGroup, null);
 
         Teacher teacher = classGroup.getTeacher();
@@ -38,13 +36,11 @@ public class ClassGroupService implements GenericService<ClassGroup> {
 
         Set<Student> students = classGroup.getStudents();
         serviceStudents.insertList(classGroup, students);
-        return classGroup;
     }
 
     // Multiple ClassGroups
     @Override
-    public Set<ClassGroup> insertList(String responseBody) {
-        Set<ClassGroup> classGroups = parserClasses.parseSet(responseBody);
+    public void insertList(Set<ClassGroup> classGroups) {
         for (ClassGroup classGroup : classGroups) {
             repositoryClasses.insertEntity(classGroup, null);
 
@@ -54,7 +50,6 @@ public class ClassGroupService implements GenericService<ClassGroup> {
             Set<Student> students = classGroup.getStudents();
             serviceStudents.insertList(classGroup, students);
         }
-        return classGroups;
     }
 
     // Called by CourseResource

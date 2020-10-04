@@ -13,26 +13,20 @@ import java.util.Set;
 public class TeacherService implements GenericService<Teacher> {
 
     @Inject private TeacherRepository repositoryTeachers;
-    @Inject private TeacherParser parserTeachers;
 
     @Inject
-    public TeacherService(TeacherRepository repositoryTeacher, TeacherParser parserTeachers) {
+    public TeacherService(TeacherRepository repositoryTeacher) {
         this.repositoryTeachers = repositoryTeacher;
-        this.parserTeachers = parserTeachers;
     }
 
     @Override
-    public Teacher insertSingle(String responseBody) {
-        Teacher teacher = parserTeachers.parseEntity(responseBody);
+    public void insertSingle(Teacher teacher) {
         repositoryTeachers.insertEntity(teacher);
-        return teacher;
     }
 
     @Override
-    public Set<Teacher> insertList(String responseBody) {
-        Set<Teacher> teachers = parserTeachers.parseSet(responseBody);
+    public void insertList(Set<Teacher> teachers) {
         for (Teacher teacher : teachers) repositoryTeachers.insertEntity(teacher, null);
-        return teachers;
     }
 
     // Called by ClassGroupService

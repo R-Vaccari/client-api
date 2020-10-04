@@ -2,12 +2,12 @@ package com.rvapp.apiconsumer.services.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface GenericParser<T> {
 
     T parseEntity(String responseBody);
-    Set<T> parseSet(String responseBody);
+    Collection<T> parseSet(String responseBody);
 
     ObjectMapper om = ObjectMapperProvider.createDefaultMapper();
     

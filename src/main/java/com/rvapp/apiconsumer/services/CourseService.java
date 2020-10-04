@@ -3,7 +3,6 @@ package com.rvapp.apiconsumer.services;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Course;
 import com.rvapp.apiconsumer.repositories.CourseRepository;
-import com.rvapp.apiconsumer.services.util.CourseParser;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,34 +13,28 @@ public class CourseService implements GenericService<Course> {
 
     @Inject private ClassGroupService serviceClasses;
     @Inject private CourseRepository repositoryCourses;
-    @Inject private CourseParser parserCourses;
 
     @Inject
-    public CourseService(ClassGroupService serviceClasses, CourseRepository repositoryCourses, CourseParser parserCourses) {
+    public CourseService(ClassGroupService serviceClasses, CourseRepository repositoryCourses) {
         this.serviceClasses = serviceClasses;
         this.repositoryCourses = repositoryCourses;
-        this.parserCourses = parserCourses;
     }
 
     @Override
-    public Course insertSingle(String responseBody) {
-        Course course = parserCourses.parseEntity(responseBody);
+    public void insertSingle(Course course) {
         repositoryCourses.insertEntity(course);
 
         Set<ClassGroup> classGroupList = course.getClasses();
         serviceClasses.insertList(course, classGroupList);
-        return course;
     }
 
     @Override
-    public Set<Course> insertList(String responseBody) {
-        Set<Course> courses = parserCourses.parseSet(responseBody);
+    public void insertList(Set<Course> courses) {
         for (Course course : courses) {
             repositoryCourses.insertEntity(course);
             Set<ClassGroup> classGroupList = course.getClasses();
             serviceClasses.insertList(course, classGroupList);
         }
-        return courses;
     }
 
     public void deleteById(String id) { repositoryCourses.deleteById(id); }

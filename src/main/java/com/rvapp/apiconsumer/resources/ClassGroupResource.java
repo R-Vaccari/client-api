@@ -1,23 +1,33 @@
 package com.rvapp.apiconsumer.resources;
 
+import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.exceptions.NotOkHttpStatusException;
 import com.rvapp.apiconsumer.resources.util.AuthenticationResource;
 import com.rvapp.apiconsumer.resources.util.ClientProvider;
+import com.rvapp.apiconsumer.services.util.ClassGroupParser;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Set;
 
 @Singleton
 public class ClassGroupResource implements GenericResource {
 
     private final WebTarget target = ClientProvider.getWebTarget().path("classes");
+    @Inject private ClassGroupParser parserClasses;
+
+    public ClassGroupResource() {}
+
+    @Inject
+    public ClassGroupResource(ClassGroupParser parserClasses) { this.parserClasses = parserClasses; }
 
     @Override
     @Consumes("application/json")
-    public String getAll() {
+    public Set<ClassGroup> getAll() {
         try {
             Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
@@ -26,7 +36,8 @@ public class ClassGroupResource implements GenericResource {
             int status = response.getStatus();
             if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
 
-            return response.readEntity(String.class);
+            Set<ClassGroup> classGroups = parserClasses.parseSet(response.readEntity(String.class));
+            return classGroups;
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -35,7 +46,7 @@ public class ClassGroupResource implements GenericResource {
 
     @Override
     @Consumes("application/json")
-    public String getById(String id) {
+    public ClassGroup getById(String id) {
         try {
             Response response = target.path(id).request(MediaType.APPLICATION_JSON_TYPE)
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
@@ -44,7 +55,8 @@ public class ClassGroupResource implements GenericResource {
             int status = response.getStatus();
             if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
 
-            return response.readEntity(String.class);
+            ClassGroup classGroup = parserClasses.parseEntity(response.readEntity(String.class));
+            return classGroup;
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -52,7 +64,7 @@ public class ClassGroupResource implements GenericResource {
     }
 
     @Consumes("application/json")
-    public String getByLevel(String level) {
+    public ClassGroup getByLevel(String level) {
         try {
             Response response = target.path("levelsearch").queryParam("level", level.toUpperCase()).request(MediaType.APPLICATION_JSON_TYPE)
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
@@ -61,7 +73,8 @@ public class ClassGroupResource implements GenericResource {
             int status = response.getStatus();
             if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
 
-            return response.readEntity(String.class);
+            ClassGroup classGroup = parserClasses.parseEntity(response.readEntity(String.class));
+            return classGroup;
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }

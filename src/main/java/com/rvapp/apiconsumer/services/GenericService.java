@@ -8,6 +8,6 @@ public interface GenericService<T> {
 
     static GenericParser GENERIC_PARSER = null;
 
-    T insertSingle(String responseBody);
-    Set<T> insertList(String responseBody);
+    void insertSingle(T element);
+    void insertList(Set<T> elements);
 }
