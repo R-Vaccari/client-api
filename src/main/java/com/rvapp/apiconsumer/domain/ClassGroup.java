@@ -1,24 +1,23 @@
 package com.rvapp.apiconsumer.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "classes", schema = "public")
 public class ClassGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String className;
-    private String classLevel;
-    @JsonProperty("teacher")
-    private Teacher teacher;
-    @JsonProperty("students")
-    private Set<Student> students = new HashSet<>();
+    @Id
+    @Column(name="class_id") private String id;
+    @Column(name="classname") private String className;
+    @Column(name="classlevel") private String classLevel;
+    @OneToOne private Teacher teacher;
+    @OneToMany private Set<Student> students = new HashSet<>();
 
-    public ClassGroup() {
-    }
+    public ClassGroup() { }
 
     public ClassGroup(String id, String className, String classLevel, Teacher teacher, Set<Student> students) {
         super();

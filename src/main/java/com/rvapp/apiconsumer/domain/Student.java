@@ -1,20 +1,25 @@
 package com.rvapp.apiconsumer.domain;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "students", schema = "public")
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String telephone;
+    @Id
+    @Column (name="student_id") private String id;
+    @Column (name="firstname") private String firstName;
+    @Column (name="lastname") private String lastName;
+    @Column (name="email") private String email;
+    @Column (name="telephone") private String telephone;
 
-    public Student() {
-
-    }
+    public Student() { }
 
     public Student(String id, String firstName, String lastName, String email, String telephone) {
         this.id = id;

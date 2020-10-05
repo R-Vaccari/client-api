@@ -33,6 +33,7 @@ public class application {
         CourseService serviceCourses = new CourseService(serviceClasses, new CourseRepository());
 
         DBAdministrator.deleteAllData();
+        serviceStudents.persistMany(resourceStudents.getAll());
 
     }
 }

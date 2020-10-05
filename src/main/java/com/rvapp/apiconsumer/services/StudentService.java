@@ -18,6 +18,9 @@ public class StudentService implements GenericService<Student> {
 
     @Override
     public void insertSingle(Student student) { repositoryStudent.insertEntity(student); }
+    public void persistSingle(Student student) { repositoryStudent.persistSingle(student); }
+    public void persistMany(Set<Student> students) { repositoryStudent.persistMany(students);}
+
     @Override
     public void insertList(Set<Student> students) { for (Student student : students) repositoryStudent.insertEntity(student, null); }
     // Called by ClassGroupService

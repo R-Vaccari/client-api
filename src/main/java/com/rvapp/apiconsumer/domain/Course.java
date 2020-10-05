@@ -1,17 +1,21 @@
 package com.rvapp.apiconsumer.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Entity
+@Table(name = "courses", schema = "public")
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String courseName;
-    private String courseType;
+    @Id
+    @Column(name="course_id") private String id;
+    @Column(name="coursename") private String courseName;
+    @Column(name="coursetype") private String courseType;
 
+    @OneToMany
     private Set<ClassGroup> classes = new HashSet<>();
 
     public Course() {

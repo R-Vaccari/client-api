@@ -4,6 +4,10 @@ import com.rvapp.apiconsumer.database.DBConnector;
 import com.rvapp.apiconsumer.domain.ClassGroup;
 import com.rvapp.apiconsumer.domain.Student;
 
+
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,6 +16,28 @@ import java.util.Set;
 public class StudentRepository implements GenericRepository<Student> {
 
     Connection conn = null;
+    EntityManagerFactory emFactory = null;
+
+    protected void setUp() {
+       emFactory = Persistence.createEntityManagerFactory("apiconsumer");
+    }
+
+    public void persistSingle(Student student) {
+        EntityManager em = emFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(student);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void persistMany(Set<Student> students) {
+        setUp();
+        EntityManager em = emFactory.createEntityManager();
+        em.getTransaction().begin();
+        for (Student student : students) em.persist(student);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     @Override
     public void insertEntity(Student student) {
