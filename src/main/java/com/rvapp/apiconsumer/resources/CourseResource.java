@@ -13,12 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
-public class CourseResource implements GenericResource {
+public class CourseResource implements GenericResource<Course> {
 
     private final WebTarget target = ClientProvider.getWebTarget().path("courses");
-    @Inject private CourseParser parserCourses;
-
-    public CourseResource() {}
+    @Inject private final CourseParser parserCourses;
 
     public CourseResource(CourseParser parserCourses) { this.parserCourses = parserCourses; }
 
@@ -30,11 +28,8 @@ public class CourseResource implements GenericResource {
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                     .get();
 
-            int status = response.getStatus();
-            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
-
-            Set<Course> courses = parserCourses.parseSet(response.readEntity(String.class));
-            return courses;
+            if (response.getStatus() != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + response.getStatus());
+            return parserCourses.parseSet(response.readEntity(String.class));
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -49,11 +44,8 @@ public class CourseResource implements GenericResource {
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                     .get();
 
-            int status = response.getStatus();
-            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
-
-            Course course = parserCourses.parseEntity(response.readEntity(String.class));
-            return course;
+            if (response.getStatus() != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + response.getStatus());
+            return parserCourses.parseEntity(response.readEntity(String.class));
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -67,11 +59,8 @@ public class CourseResource implements GenericResource {
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                     .get();
 
-            int status = response.getStatus();
-            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
-
-            Course course = parserCourses.parseEntity(response.readEntity(String.class));
-            return course;
+            if (response.getStatus() != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + response.getStatus());
+            return parserCourses.parseEntity(response.readEntity(String.class));
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -83,10 +72,9 @@ public class CourseResource implements GenericResource {
 
     @Override
     public Response getResponse() {
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+        return target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
-        return response;
     }
 
 }

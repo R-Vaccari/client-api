@@ -13,13 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
 
-public class TeacherResource implements GenericResource {
+public class TeacherResource implements GenericResource<Teacher> {
 
     private final WebTarget target = ClientProvider.getWebTarget().path("teachers");
+    @Inject private final TeacherParser parserTeachers;
 
-    @Inject private TeacherParser parserTeachers;
-
-    public TeacherResource() {}
     @Inject
     public TeacherResource(TeacherParser parserTeachers) { this.parserTeachers = parserTeachers; }
 
@@ -31,11 +29,8 @@ public class TeacherResource implements GenericResource {
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                     .get();
 
-            int status = response.getStatus();
-            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
-
-            Set<Teacher> teachers = parserTeachers.parseSet(response.readEntity(String.class));
-            return teachers;
+            if (response.getStatus() != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + response.getStatus());
+            return parserTeachers.parseSet(response.readEntity(String.class));
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
@@ -50,15 +45,12 @@ public class TeacherResource implements GenericResource {
                     .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                     .get();
 
-            int status = response.getStatus();
-            if (status != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + status);
-
-            Teacher teacher = parserTeachers.parseEntity(response.readEntity(String.class));
-            return teacher;
+            if (response.getStatus() != 200) throw new NotOkHttpStatusException("Expected status: 200. Response status: " + response.getStatus());
+            return parserTeachers.parseEntity(response.readEntity(String.class));
         } catch (NotOkHttpStatusException e) {
             e.printStackTrace();
         }
-            return null;
+        return null;
     }
 
     @Override
@@ -68,10 +60,8 @@ public class TeacherResource implements GenericResource {
 
     @Override
     public Response getResponse() {
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+        return target.request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + AuthenticationResource.authenticate())
                 .get();
-        return response;
     }
-
 }

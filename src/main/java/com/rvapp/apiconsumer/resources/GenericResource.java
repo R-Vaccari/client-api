@@ -6,8 +6,8 @@ import java.util.Collection;
 
 public interface GenericResource<T> {
 
-    public Collection<T> getAll();
-    public T getById(String id);
-    public WebTarget getWebTarget();
-    public Response getResponse();
+    Collection<T> getAll();
+    T getById(String id);
+    WebTarget getWebTarget();
+    Response getResponse();
 }
